@@ -32,6 +32,8 @@ import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 
 import calendarModelo.RegistroModelo;
+import exceptions.ExceptionModificable;
+
 
 public class Registro extends JFrame {
 	
@@ -226,11 +228,21 @@ public class Registro extends JFrame {
 			botonRegistro.setBorder(borde);
 			botonRegistro.setText(" REGISTRARSE ");
 			botonRegistro.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					int a = r.Guardar("Iker","1234");
+					try {
+						if(usuarioTF.getText().length() != 0) {
+							if (contraseñaTF.getText().equals(contraseña_2_TF.getText())){
+								int a = r.Guardar((String) usuarioTF.getText(),(String) contraseñaTF.getText());
+							}else {
+								throw new ExceptionModificable(registro, "Las contraseñas no coinciden");
+							}
+						}else {
+							throw new ExceptionModificable(registro, "El usuario no puede estar vacio!");
+						}
+					}catch(ExceptionModificable se) {
+						se.imprimirMensaje();
+					}
 				}
 			});
 		}
