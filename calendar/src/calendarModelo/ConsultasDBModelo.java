@@ -29,6 +29,10 @@ public class ConsultasDBModelo extends BD{
 		else {
 			return false;
 		}
-		
+	}
+	
+	public ResultSet conseguirEntreno() throws SQLException {
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `ejercicios`; ");
+		return respuesta;
 	}
 }
