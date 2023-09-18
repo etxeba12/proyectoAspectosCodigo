@@ -52,5 +52,29 @@ public class BD {
 			// TODO: handle exception
 		}
     }
+    
+    public ResultSet obtenerDatos(String instruccion) {
+    	
+    	Conectar();
+    	ResultSet validar = null;
+    	
+    	try {
+    		if(conexion == null) {
+    			JOptionPane.showMessageDialog(null, "conexión nula");
+    		}
+    		consulta = conexion.createStatement();
+    		validar = consulta.executeQuery(instruccion);
+    		
+    		return validar;
+    				
+    	}catch (Exception e) {
+    		JOptionPane.showMessageDialog(null, "Error al realizar la consulta");
+    		e.printStackTrace();
+    		
+    		return validar;
+			// TODO: handle exception
+		}
+    	
+    }
 	
 }

@@ -28,14 +28,16 @@ import javax.swing.Box;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 
-import calendarModelo.RegistroModelo;
+import calendarModelo.ConsultasDBModelo;
 import exceptions.ExceptionModificable;
 
 
-public class Registro extends JFrame {
+public class RegistroVista extends JFrame {
 	
 		
 	private JPanel registro; //para crear el panel principal
@@ -54,14 +56,14 @@ public class Registro extends JFrame {
 	private JButton botonRegistro;
 	private JButton botonLogin;
 	
-	private RegistroModelo r = new RegistroModelo();
+	private ConsultasDBModelo r = new ConsultasDBModelo();
 	
-	private static Registro miSesionregistro;
+	private static RegistroVista miSesionregistro;
 	private JPanel panelBotones;
 
 	//Eraikitzailea
 	
-	private Registro() {
+	private RegistroVista() {
 		setTitle("registro"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
 		setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
@@ -96,18 +98,13 @@ public class Registro extends JFrame {
 		setLocationRelativeTo(null);
 	}
 	
-	public static Registro getMiregistro() {
+	public static RegistroVista getMiregistro() {
 		if(miSesionregistro == null) {
-			miSesionregistro = new Registro();
+			miSesionregistro = new RegistroVista();
 		}
 		return miSesionregistro;
 	}
 	
-	
-	public static void main(String[] args) {
-		Registro rg = getMiregistro();
-		rg.setVisible(true);
-	}
 	
 	////////////// creamos los labels y los TF //////////////
 	
@@ -231,17 +228,24 @@ public class Registro extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						if(usuarioTF.getText().length() != 0) {
-							if (contraseñaTF.getText().equals(contraseña_2_TF.getText())){
-								int a = r.Guardar((String) usuarioTF.getText(),(String) contraseñaTF.getText());
+						if(usuarioTF.getText().length() != 0 && contraseñaTF.getText().length() != 0 && contraseña_2_TF.getText().length() != 0) {
+							if(!r.comprobarUsuario(usuarioTF.getText())){
+								if (contraseñaTF.getText().equals(contraseña_2_TF.getText())){
+									int a = r.Guardar((String) usuarioTF.getText(),(String) contraseñaTF.getText());
+								}else {
+									throw new ExceptionModificable(registro, "Las contraseñas no coinciden");
+								}
 							}else {
-								throw new ExceptionModificable(registro, "Las contraseñas no coinciden");
+								throw new ExceptionModificable(registro, "El usuario ya existe!");
 							}
 						}else {
-							throw new ExceptionModificable(registro, "El usuario no puede estar vacio!");
+							throw new ExceptionModificable(registro, "El usuario y/o contraseñas no pueden estar vacios!");
 						}
 					}catch(ExceptionModificable se) {
 						se.imprimirMensaje();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			});
@@ -256,6 +260,16 @@ public class Registro extends JFrame {
 			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
 			botonLogin.setBorder(borde);
 			botonLogin.setText(" LOGEARSE ");
+			botonLogin.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					setVisible(false);
+					LoginVista lg = LoginVista.getLogin();
+					lg.setVisible(true);
+				}
+			});
 		}
 		return botonLogin;
 	}
