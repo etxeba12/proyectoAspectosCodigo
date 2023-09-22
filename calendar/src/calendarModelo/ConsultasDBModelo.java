@@ -2,6 +2,7 @@ package calendarModelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class ConsultasDBModelo extends BD{
 
@@ -31,8 +32,8 @@ public class ConsultasDBModelo extends BD{
 		}
 	}
 	
-	public ResultSet conseguirEntreno() throws SQLException {
-		ResultSet respuesta = obtenerDatos("SELECT * FROM `ejercicios`; ");
+	public ResultSet conseguirEntreno(String fecha) throws SQLException {
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `ejercicios` WHERE fecha='"+fecha+"'; ");
 		return respuesta;
 	}
 }

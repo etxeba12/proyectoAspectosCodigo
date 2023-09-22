@@ -200,6 +200,9 @@ public class LoginVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contraseñaTF.getText().length() != 0) {
 							if(r.loginValido(usuarioTF.getText(),contraseñaTF.getText())){
 								System.out.println("accediendo");
+								setVisible(false);
+								EntrenoDiarioVista ev = EntrenoDiarioVista.getMiEntreno("2023-09-22");
+								ev.setVisible(true);
 							}else {
 								throw new ExceptionModificable(login, "¡El usuario y/o contraseña incorrectos!");
 							}

@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -27,6 +31,8 @@ import javax.swing.border.EmptyBorder;
 
 import exceptions.ExceptionModificable;
 import calendarModelo.ConsultasDBModelo;
+import calendarBista.EntrenoInfoVista;
+
 
 public class EntrenoDiarioVista extends JFrame {
 
@@ -34,15 +40,16 @@ public class EntrenoDiarioVista extends JFrame {
 		private JButton flechaAtras;
 		private JButton flechaDelante;
 		private Color azulCielo = new Color(31, 197, 203);
-		private Color colorBlanco = new Color(255,255,255); //definir color de atras
 		private Color color1 = new Color(231, 231, 231); //definir color de panel atras
 		private static EntrenoDiarioVista miEntrenoDiario;
 		private JPanel entrenoDiario ;
 		private JPanel parteArriba;
 		private JPanel tabla;
 		private ConsultasDBModelo cd = new ConsultasDBModelo();
+		private String fecha;
 		
-		private EntrenoDiarioVista() throws SQLException {
+		private EntrenoDiarioVista(String pFecha) throws SQLException {
+			fecha = pFecha;
 			setTitle("Entreno diario"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
 			setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
@@ -67,27 +74,19 @@ public class EntrenoDiarioVista extends JFrame {
 			setLocationRelativeTo(null);
 		}
 		
-		public static EntrenoDiarioVista getMiEntreno() throws SQLException {
+		public static EntrenoDiarioVista getMiEntreno(String pFecha) throws SQLException {
 			if( miEntrenoDiario == null) {
-				miEntrenoDiario = new EntrenoDiarioVista();
+				miEntrenoDiario = new EntrenoDiarioVista(pFecha);
 			}
 			return miEntrenoDiario;
 		}
 		
-		public static void main(String[] args) throws SQLException {
-			EntrenoDiarioVista lg = getMiEntreno();
-			lg.setVisible(true);
-		}
 		
 		//////////////creamos los labels y los TF //////////////
 		
 		public JLabel getFecha() { //si no se ha creado la etiqueta todavia, la creamos
-			java.util.Date fecha = new Date();
-			String date = fecha.toString();
-			String[] palabra = date.split(" ");
-			System.out.println(date);
 			if(fechaTitulo == null) {
-				fechaTitulo = new JLabel(palabra[2]+" "+palabra[1]+" " +palabra[5]);
+				fechaTitulo = new JLabel(fecha);
 				fechaTitulo.setBounds(0, 0, 140, 120);
 				fechaTitulo.setForeground(Color.white);
 				fechaTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -111,6 +110,25 @@ public class EntrenoDiarioVista extends JFrame {
 	            flechaAtras.setIcon(new ImageIcon(imagenRedimensionada));
 				flechaAtras.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				flechaAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				flechaAtras.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						try {
+							String fechaAnterior = calcularDiaAnterior(fecha);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaAnterior);
+		                    ed.setVisible(true);
+		                    dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} 
+					}
+				});
 			}
 			return flechaAtras;
 		}
@@ -125,8 +143,49 @@ public class EntrenoDiarioVista extends JFrame {
 				flechaDelante.setIcon(new ImageIcon(imagenRedimensionada));
 				flechaDelante.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				flechaDelante.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				flechaDelante.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// falta mirar que pasa si un entreno que busques no existe	 
+						try {
+							String fechaSiguiente = calcularDiaSiguiente(fecha);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaSiguiente);
+		                    ed.setVisible(true);
+		                    dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} 
+					}
+				});
 			}
 			return flechaDelante;
+		}
+		
+		private String crearFormatoFecha(Date pFecha) {
+			String date = pFecha.toString();
+			String[] palabra = date.split(" ");
+			String[] meses = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+			int mes = 0;
+			boolean encontrado = false;
+			System.out.println(palabra[1]);
+			while(!encontrado) {
+				if(palabra[1].equals(meses[mes])) {
+					encontrado = true;
+				}
+				else {
+					mes = mes + 1;
+				}
+			}
+			mes = mes + 1;
+			String resultado = palabra[5]+"-0"+mes+"-"+palabra[2];
+			System.out.println(resultado);
+			return resultado;
+			
 		}
 		
 		private JPanel getEntrenamientos() throws SQLException {
@@ -136,7 +195,7 @@ public class EntrenoDiarioVista extends JFrame {
 			this.tabla.setBounds(0, 45, 500, 220);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.tabla.setBorder(borde);
-			ResultSet respuesta = cd.conseguirEntreno();
+			ResultSet respuesta = cd.conseguirEntreno(fecha);
 			Integer i = 1;
 			while(respuesta.next()) {
 				String ejer = respuesta.getString("ejercicio");
@@ -150,6 +209,21 @@ public class EntrenoDiarioVista extends JFrame {
 		        boton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Espaciado interno
 		        boton.setOpaque(true); // Permitir el pintado del color de fondo
 		        boton.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
+		        boton.addActionListener(new ActionListener() {
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		                try {
+		                	JButton botonClicado = (JButton) e.getSource();
+			                String nombreEjer = botonClicado.getText();
+							EntrenoInfoVista ei = new EntrenoInfoVista(nombreEjer);
+							ei.setVisible(true);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+		            }
+		        });
 		        tabla.add(Box.createRigidArea(new Dimension(0, 5)));
 				boton.setMaximumSize(new Dimension(Short.MAX_VALUE, boton.getPreferredSize().height));
 				this.tabla.add(boton);
@@ -157,5 +231,27 @@ public class EntrenoDiarioVista extends JFrame {
 			}
 			return tabla;
 		}
+		
+		private String calcularDiaSiguiente(String fechaStr) throws java.text.ParseException {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Date fecha = dateFormat.parse(fechaStr);
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(fecha);
+	        calendar.add(Calendar.DAY_OF_MONTH, 1);
+	        String diaSiguienteStr = dateFormat.format(calendar.getTime());
+	        
+	        return diaSiguienteStr;
+	    }
+		
+		private String calcularDiaAnterior(String fechaStr) throws java.text.ParseException {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Date fecha = dateFormat.parse(fechaStr);
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(fecha);
+	        calendar.add(Calendar.DAY_OF_MONTH, -1);
+	        String diaSiguienteStr = dateFormat.format(calendar.getTime());
+	        
+	        return diaSiguienteStr;
+	    }
 		
 }
