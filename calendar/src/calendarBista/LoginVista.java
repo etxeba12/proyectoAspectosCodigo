@@ -43,6 +43,7 @@ public class LoginVista extends JFrame {
 	private JPanel login; //para crear el panel principal
 	private Color colorBlanco = new Color(255,255,255); //definir color de atras
 	private Color color1 = new Color(231, 231, 231); //definir color de panel atras
+	private Color azulCielo = new Color(31, 197, 203);
 	private JLabel bienvenidaLbl = null;
 	private JLabel usuarioLbl = null;
 	private JTextField usuarioTF;
@@ -52,6 +53,7 @@ public class LoginVista extends JFrame {
 	private JSeparator separador_1;
 	private JButton botonRegistro;
 	private JButton botonLogin;
+	private JPanel parteArriba;
 	
 	private ConsultasDBModelo r = new ConsultasDBModelo();
 	
@@ -69,13 +71,22 @@ public class LoginVista extends JFrame {
 		login.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(login); //colocamos el panel dentro de la ventana principal.
 		this.login.setLayout(null); //asi colocamos las cosas donde nosotros queremos
-		login.add(getBienvenida());
 		login.add(getMeterUsuario());
 		this.login.add(getUsuarioTF());
 		this.login.add(getSeparador());
 		login.add(getContraseña());
 		login.add(getContraseñaTF());
 		{
+			
+			this.parteArriba = new JPanel();
+			this.parteArriba.setBounds(0, 5, 500, 35);
+			Border borde = BorderFactory.createLineBorder(Color.black, 1);
+			this.parteArriba.setBorder(borde);
+			this.parteArriba.setBackground(azulCielo);
+			this.parteArriba.setLayout(null);
+			this.parteArriba.add(getBienvenida());
+			this.login.add(parteArriba);
+			
 			//// boton registrarse y registro ////
 			
 			this.panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner botones seguidos
@@ -112,6 +123,7 @@ public class LoginVista extends JFrame {
 			bienvenidaLbl = new JLabel("¡LOGEATE!");
 			bienvenidaLbl.setBounds(195, -40, 105, 120);
 			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			bienvenidaLbl.setForeground(colorBlanco);
 			
 		}
 		return bienvenidaLbl;
@@ -121,6 +133,7 @@ public class LoginVista extends JFrame {
 		if(usuarioLbl == null) {
 			usuarioLbl = new JLabel("Nombre de usuario:");
 			usuarioLbl.setBounds(180, 64, 150, 14); //x,y, longitud, altura
+			usuarioLbl.setForeground(azulCielo);
 		}
 		return usuarioLbl;
 	}
@@ -142,6 +155,7 @@ public class LoginVista extends JFrame {
 		if(contraseñaLbl == null) {
 			contraseñaLbl = new JLabel("Introducir contraseña:");
 			contraseñaLbl.setBounds(175, 122, 150, 14);
+			contraseñaLbl.setForeground(azulCielo);
 		}
 		return contraseñaLbl;
 	}
@@ -166,7 +180,7 @@ public class LoginVista extends JFrame {
 		if (separador == null) {
 			separador = new JSeparator();
 			separador.setBounds(110, 109, 250, 14);
-			separador.setForeground(this.colorBlanco);
+			separador.setForeground(this.azulCielo);
 			separador.setBackground(Color.BLACK);
 		}
 		return separador;
@@ -176,7 +190,7 @@ public class LoginVista extends JFrame {
 		if (separador_1 == null) {
 			separador_1 = new JSeparator();
 			separador_1.setBounds(110, 167, 250, 14);
-			separador_1.setForeground(this.colorBlanco);
+			separador_1.setForeground(this.azulCielo);
 			separador_1.setBackground(Color.BLACK);
 		}
 		return separador_1;
@@ -189,7 +203,8 @@ public class LoginVista extends JFrame {
 	private JButton getBotonLogin() {
 		if(botonLogin == null) {
 			botonLogin = new JButton();
-			botonLogin.setBackground(this.colorBlanco);
+			botonLogin.setBackground(this.azulCielo);
+			botonLogin.setForeground(colorBlanco);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			botonLogin.setBorder(borde);
 			botonLogin.setText(" ENTRAR ");
@@ -226,7 +241,8 @@ public class LoginVista extends JFrame {
 	private JButton getBotonRegistrarse() {
 		if(botonRegistro == null) {
 			botonRegistro = new JButton();
-			botonRegistro.setBackground(this.colorBlanco);
+			botonRegistro.setBackground(this.azulCielo);
+			botonRegistro.setForeground(colorBlanco);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
 			botonRegistro.setBorder(borde);
 			botonRegistro.setText(" REGISTRATE ");

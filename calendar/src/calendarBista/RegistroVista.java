@@ -43,6 +43,7 @@ public class RegistroVista extends JFrame {
 	private JPanel registro; //para crear el panel principal
 	private Color colorBlanco = new Color(255,255,255); //definir color de atras
 	private Color color1 = new Color(231, 231, 231); //definir color de panel atras
+	private Color azulCielo = new Color(31, 197, 203);
 	private JLabel bienvenidaLbl = null;
 	private JLabel usuarioLbl = null;
 	private JTextField usuarioTF;
@@ -55,6 +56,7 @@ public class RegistroVista extends JFrame {
 	private JSeparator separador_2;
 	private JButton botonRegistro;
 	private JButton botonLogin;
+	private JPanel parteArriba;
 	
 	private ConsultasDBModelo r = new ConsultasDBModelo();
 	
@@ -79,11 +81,19 @@ public class RegistroVista extends JFrame {
 		registro.add(getContraseña());
 		registro.add(getContraseñaTF());
 		{
+			this.parteArriba = new JPanel();
+			this.parteArriba.setBounds(0, 5, 500, 35);
+			Border borde = BorderFactory.createLineBorder(Color.black, 1);
+			this.parteArriba.setBorder(borde);
+			this.parteArriba.setBackground(azulCielo);
+			this.parteArriba.setLayout(null);
+			this.parteArriba.add(getBienvenida());
+			this.registro.add(parteArriba);
 			//// boton registrarse y registro ////
 			
 			this.panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner botones seguidos
 			this.panelBotones.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-			this.panelBotones.setBounds(150, 213, 200, 52);
+			this.panelBotones.setBounds(150, 218, 200, 52);
 			this.registro.add(this.panelBotones); // añadimos el Panel al principal panel
 			this.panelBotones.add(getBotonLogearse());
 			Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
@@ -113,6 +123,7 @@ public class RegistroVista extends JFrame {
 			bienvenidaLbl = new JLabel("¡REGISTRATE!");
 			bienvenidaLbl.setBounds(185, -40, 105, 120);
 			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			bienvenidaLbl.setForeground(colorBlanco);
 			
 		}
 		return bienvenidaLbl;
@@ -121,7 +132,8 @@ public class RegistroVista extends JFrame {
 	public JLabel getMeterUsuario() { //si no se ha creado la etiqueta todavia, la creamos
 		if(usuarioLbl == null) {
 			usuarioLbl = new JLabel("Nombre de usuario:");
-			usuarioLbl.setBounds(180, 39, 150, 14); //x,y, longitud, altura
+			usuarioLbl.setBounds(180, 44, 150, 14); //x,y, longitud, altura
+			usuarioLbl.setForeground(azulCielo);
 		}
 		return usuarioLbl;
 	}
@@ -129,7 +141,7 @@ public class RegistroVista extends JFrame {
 	private JTextField getUsuarioTF() {
 		if(usuarioTF == null) {
 			usuarioTF = new JTextField();
-			usuarioTF.setBounds(110, 68, 250, 14);
+			usuarioTF.setBounds(110, 73, 250, 14);
 			usuarioTF.setToolTipText(""); //para que este vacio
 			usuarioTF.setForeground(Color.BLACK);
 			usuarioTF.setBorder(null);
@@ -142,7 +154,8 @@ public class RegistroVista extends JFrame {
 	public JLabel getContraseña() { //si no se ha creado la etiqueta todavia, la creamos
 		if(contraseñaLbl == null) {
 			contraseñaLbl = new JLabel("Introducir contraseña:");
-			contraseñaLbl.setBounds(175, 97, 150, 14);
+			contraseñaLbl.setBounds(175, 102, 150, 14);
+			contraseñaLbl.setForeground(azulCielo);
 		}
 		return contraseñaLbl;
 	}
@@ -150,7 +163,7 @@ public class RegistroVista extends JFrame {
 	private JTextField getContraseñaTF() {
 		if(contraseñaTF == null) {
 			contraseñaTF = new JTextField();
-			contraseñaTF.setBounds(110, 126, 250, 14);
+			contraseñaTF.setBounds(110, 131, 250, 14);
 			contraseñaTF.setToolTipText(""); //para que este vacio
 			contraseñaTF.setForeground(Color.BLACK);
 			contraseñaTF.setBorder(null);
@@ -162,7 +175,8 @@ public class RegistroVista extends JFrame {
 	public JLabel getContraseña_2() { //si no se ha creado la etiqueta todavia, la creamos
 		if(contraseña_2_Lbl == null) {
 			contraseña_2_Lbl = new JLabel("Repetir contraseña:");
-			contraseña_2_Lbl.setBounds(180, 155, 150, 14);
+			contraseña_2_Lbl.setBounds(180, 160, 150, 14);
+			contraseña_2_Lbl.setForeground(azulCielo);
 		}
 		return contraseña_2_Lbl;
 	}
@@ -170,7 +184,7 @@ public class RegistroVista extends JFrame {
 	private JTextField getContraseñaTF_2() {
 		if(contraseña_2_TF == null) {
 			contraseña_2_TF = new JTextField();
-			contraseña_2_TF.setBounds(110, 184, 250, 14);
+			contraseña_2_TF.setBounds(110, 189, 250, 14);
 			contraseña_2_TF.setToolTipText(""); //para que este vacio
 			contraseña_2_TF.setForeground(Color.BLACK);
 			contraseña_2_TF.setBorder(null);
@@ -186,8 +200,8 @@ public class RegistroVista extends JFrame {
 	private JSeparator getSeparador() {
 		if (separador == null) {
 			separador = new JSeparator();
-			separador.setBounds(110, 84, 250, 14);
-			separador.setForeground(this.colorBlanco);
+			separador.setBounds(110, 89, 250, 14);
+			separador.setForeground(this.azulCielo);
 			separador.setBackground(Color.BLACK);
 		}
 		return separador;
@@ -196,8 +210,8 @@ public class RegistroVista extends JFrame {
 	private JSeparator getSeparador1() {
 		if (separador_1 == null) {
 			separador_1 = new JSeparator();
-			separador_1.setBounds(110, 142, 250, 14);
-			separador_1.setForeground(this.colorBlanco);
+			separador_1.setBounds(110, 147, 250, 14);
+			separador_1.setForeground(this.azulCielo);
 			separador_1.setBackground(Color.BLACK);
 		}
 		return separador_1;
@@ -206,8 +220,8 @@ public class RegistroVista extends JFrame {
 	private JSeparator getSeparador2() {
 		if (separador_2 == null) {
 			separador_2 = new JSeparator();
-			separador_2.setBounds(110, 200, 250, 14);
-			separador_2.setForeground(this.colorBlanco);
+			separador_2.setBounds(110, 205, 250, 14);
+			separador_2.setForeground(this.azulCielo);
 			separador_2.setBackground(Color.BLACK);
 		}
 		return separador_2;
@@ -220,7 +234,7 @@ public class RegistroVista extends JFrame {
 	private JButton getBotonRegistro() {
 		if(botonRegistro == null) {
 			botonRegistro = new JButton();
-			botonRegistro.setBackground(this.colorBlanco);
+			botonRegistro.setBackground(this.azulCielo);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			botonRegistro.setBorder(borde);
 			botonRegistro.setText(" REGISTRARSE ");
@@ -232,6 +246,12 @@ public class RegistroVista extends JFrame {
 							if(!r.comprobarUsuario(usuarioTF.getText())){
 								if (contraseñaTF.getText().equals(contraseña_2_TF.getText())){
 									int a = r.Guardar((String) usuarioTF.getText(),(String) contraseñaTF.getText());
+									setVisible(false);	
+									contraseña_2_TF.setText("");
+									contraseñaTF.setText("");
+									usuarioTF.setText("");
+									LoginVista lg = LoginVista.getLogin();
+									lg.setVisible(true);
 								}else {
 									throw new ExceptionModificable(registro, "Las contraseñas no coinciden");
 								}
@@ -256,7 +276,7 @@ public class RegistroVista extends JFrame {
 	private JButton getBotonLogearse() {
 		if(botonLogin == null) {
 			botonLogin = new JButton();
-			botonLogin.setBackground(this.colorBlanco);
+			botonLogin.setBackground(this.azulCielo);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
 			botonLogin.setBorder(borde);
 			botonLogin.setText(" LOGEARSE ");
