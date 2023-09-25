@@ -237,6 +237,7 @@ public class RegistroVista extends JFrame {
 			botonRegistro.setBackground(this.azulCielo);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			botonRegistro.setBorder(borde);
+			botonRegistro.setForeground(colorBlanco);
 			botonRegistro.setText(" REGISTRARSE ");
 			botonRegistro.addActionListener(new ActionListener() {
 				@Override
@@ -279,6 +280,7 @@ public class RegistroVista extends JFrame {
 			botonLogin.setBackground(this.azulCielo);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
 			botonLogin.setBorder(borde);
+			botonLogin.setForeground(colorBlanco);
 			botonLogin.setText(" LOGEARSE ");
 			botonLogin.addActionListener(new ActionListener() {
 				
