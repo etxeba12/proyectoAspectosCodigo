@@ -37,7 +37,7 @@ public class BD {
     	
     	try {
     		if(conexion == null) {
-    			JOptionPane.showMessageDialog(null, "conexión nula");
+    			JOptionPane.showMessageDialog(null, "conexion nula");
     		}
     		consulta = conexion.createStatement();
     		validar = consulta.executeUpdate(instruccion);
@@ -60,7 +60,7 @@ public class BD {
     	
     	try {
     		if(conexion == null) {
-    			JOptionPane.showMessageDialog(null, "conexión nula");
+    			JOptionPane.showMessageDialog(null, "conexion nula");
     		}
     		consulta = conexion.createStatement();
     		validar = consulta.executeQuery(instruccion);
