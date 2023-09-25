@@ -47,8 +47,8 @@ public class LoginVista extends JFrame {
 	private JLabel bienvenidaLbl = null;
 	private JLabel usuarioLbl = null;
 	private JTextField usuarioTF;
-	private JLabel contraseñaLbl = null;
-	private JTextField contraseñaTF;
+	private JLabel contrasenaLbl = null;
+	private JTextField contrasenaTF;
 	private JSeparator separador;
 	private JSeparator separador_1;
 	private JButton botonRegistro;
@@ -64,8 +64,8 @@ public class LoginVista extends JFrame {
 	
 	private LoginVista() {
 		setTitle("login"); //titulo de la pagina
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-		setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
+		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		login = new JPanel();
 		this.login.setBackground(this.color1); //definimos color de fondo
 		login.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,8 +74,8 @@ public class LoginVista extends JFrame {
 		login.add(getMeterUsuario());
 		this.login.add(getUsuarioTF());
 		this.login.add(getSeparador());
-		login.add(getContraseña());
-		login.add(getContraseñaTF());
+		login.add(getContrasena());
+		login.add(getContrasenaTF());
 		{
 			
 			this.parteArriba = new JPanel();
@@ -92,7 +92,7 @@ public class LoginVista extends JFrame {
 			this.panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner botones seguidos
 			this.panelBotones.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 			this.panelBotones.setBounds(150, 213, 200, 52);
-			this.login.add(this.panelBotones); // añadimos el Panel al principal panel
+			this.login.add(this.panelBotones); // anadimos el Panel al principal panel
 			this.panelBotones.add(getBotonRegistrarse());
 			Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
 			this.panelBotones.add(espacio);
@@ -151,25 +151,25 @@ public class LoginVista extends JFrame {
 		return usuarioTF;
 	}
 	
-	public JLabel getContraseña() { //si no se ha creado la etiqueta todavia, la creamos
-		if(contraseñaLbl == null) {
-			contraseñaLbl = new JLabel("Introducir contraseña:");
-			contraseñaLbl.setBounds(175, 122, 150, 14);
-			contraseñaLbl.setForeground(azulCielo);
+	public JLabel getContrasena() { //si no se ha creado la etiqueta todavia, la creamos
+		if(contrasenaLbl == null) {
+			contrasenaLbl = new JLabel("Introducir contrasena:");
+			contrasenaLbl.setBounds(175, 122, 150, 14);
+			contrasenaLbl.setForeground(azulCielo);
 		}
-		return contraseñaLbl;
+		return contrasenaLbl;
 	}
 	
-	private JTextField getContraseñaTF() {
-		if(contraseñaTF == null) {
-			contraseñaTF = new JTextField();
-			contraseñaTF.setBounds(110, 151, 250, 14);
-			contraseñaTF.setToolTipText(""); //para que este vacio
-			contraseñaTF.setForeground(Color.BLACK);
-			contraseñaTF.setBorder(null);
-			contraseñaTF.setBackground(this.colorBlanco);
+	private JTextField getContrasenaTF() {
+		if(contrasenaTF == null) {
+			contrasenaTF = new JTextField();
+			contrasenaTF.setBounds(110, 151, 250, 14);
+			contrasenaTF.setToolTipText(""); //para que este vacio
+			contrasenaTF.setForeground(Color.BLACK);
+			contrasenaTF.setBorder(null);
+			contrasenaTF.setBackground(this.colorBlanco);
 		}
-		return contraseñaTF;
+		return contrasenaTF;
 	}
 	
 	////////////// creamos los labels y los TF //////////////
@@ -212,21 +212,21 @@ public class LoginVista extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						if(usuarioTF.getText().length() != 0 && contraseñaTF.getText().length() != 0) {
-							if(r.loginValido(usuarioTF.getText(),contraseñaTF.getText())){
+						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
+							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								System.out.println("accediendo");
 								setVisible(false);
 								EntrenoDiarioVista ev = EntrenoDiarioVista.getMiEntreno("2023-09-22");
 								ev.setVisible(true);
 							}else {
-								throw new ExceptionModificable(login, "¡El usuario y/o contraseña incorrectos!");
+								throw new ExceptionModificable(login, "¡El usuario y/o contrasena incorrectos!");
 							}
 						}else {
-							throw new ExceptionModificable(login, "¡El usuario y/o la contraseña no pueden estar vacios!");
+							throw new ExceptionModificable(login, "¡El usuario y/o la contrasena no pueden estar vacios!");
 						}
 					}catch(ExceptionModificable se) {
 						usuarioTF.setText("");
-						contraseñaTF.setText("");
+						contrasenaTF.setText("");
 						se.imprimirMensaje();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block

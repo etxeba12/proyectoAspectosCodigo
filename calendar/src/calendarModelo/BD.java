@@ -30,7 +30,7 @@ public class BD {
         }
     }
     
-    public int SetInformacion(String instrucción) {
+    public int SetInformacion(String instruccion) {
     	
     	Conectar();
     	int validar = 0;
@@ -40,7 +40,7 @@ public class BD {
     			JOptionPane.showMessageDialog(null, "conexión nula");
     		}
     		consulta = conexion.createStatement();
-    		validar = consulta.executeUpdate(instrucción);
+    		validar = consulta.executeUpdate(instruccion);
     		
     		return validar;
     				

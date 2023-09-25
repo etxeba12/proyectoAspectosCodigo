@@ -47,10 +47,10 @@ public class RegistroVista extends JFrame {
 	private JLabel bienvenidaLbl = null;
 	private JLabel usuarioLbl = null;
 	private JTextField usuarioTF;
-	private JLabel contraseñaLbl = null;
-	private JTextField contraseñaTF;
-	private JLabel contraseña_2_Lbl = null;
-	private JTextField contraseña_2_TF; // para repetir la contraseña
+	private JLabel contrasenaLbl = null;
+	private JTextField contrasenaTF;
+	private JLabel contrasena_2_Lbl = null;
+	private JTextField contrasena_2_TF; // para repetir la contrasena
 	private JSeparator separador;
 	private JSeparator separador_1;
 	private JSeparator separador_2;
@@ -67,8 +67,8 @@ public class RegistroVista extends JFrame {
 	
 	private RegistroVista() {
 		setTitle("registro"); //titulo de la pagina
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-		setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
+		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		registro = new JPanel();
 		this.registro.setBackground(this.color1); //definimos color de fondo
 		registro.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,8 +78,8 @@ public class RegistroVista extends JFrame {
 		registro.add(getMeterUsuario());
 		this.registro.add(getUsuarioTF());
 		this.registro.add(getSeparador());
-		registro.add(getContraseña());
-		registro.add(getContraseñaTF());
+		registro.add(getContrasena());
+		registro.add(getContrasenaTF());
 		{
 			this.parteArriba = new JPanel();
 			this.parteArriba.setBounds(0, 5, 500, 35);
@@ -94,7 +94,7 @@ public class RegistroVista extends JFrame {
 			this.panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner botones seguidos
 			this.panelBotones.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 			this.panelBotones.setBounds(150, 218, 200, 52);
-			this.registro.add(this.panelBotones); // añadimos el Panel al principal panel
+			this.registro.add(this.panelBotones); // anadimos el Panel al principal panel
 			this.panelBotones.add(getBotonLogearse());
 			Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
 			this.panelBotones.add(espacio);
@@ -102,8 +102,8 @@ public class RegistroVista extends JFrame {
 			
 		}
 		this.registro.add(getSeparador1()); //poner linea debajo del TF		
-		registro.add(getContraseña_2());
-		this.registro.add(getContraseñaTF_2());
+		registro.add(getContrasena_2());
+		this.registro.add(getContrasenaTF_2());
 		this.registro.add(getSeparador2());
 		setLocationRelativeTo(null);
 	}
@@ -151,46 +151,46 @@ public class RegistroVista extends JFrame {
 		return usuarioTF;
 	}
 	
-	public JLabel getContraseña() { //si no se ha creado la etiqueta todavia, la creamos
-		if(contraseñaLbl == null) {
-			contraseñaLbl = new JLabel("Introducir contraseña:");
-			contraseñaLbl.setBounds(175, 102, 150, 14);
-			contraseñaLbl.setForeground(azulCielo);
+	public JLabel getContrasena() { //si no se ha creado la etiqueta todavia, la creamos
+		if(contrasenaLbl == null) {
+			contrasenaLbl = new JLabel("Introducir contrasena:");
+			contrasenaLbl.setBounds(175, 102, 150, 14);
+			contrasenaLbl.setForeground(azulCielo);
 		}
-		return contraseñaLbl;
+		return contrasenaLbl;
 	}
 	
-	private JTextField getContraseñaTF() {
-		if(contraseñaTF == null) {
-			contraseñaTF = new JTextField();
-			contraseñaTF.setBounds(110, 131, 250, 14);
-			contraseñaTF.setToolTipText(""); //para que este vacio
-			contraseñaTF.setForeground(Color.BLACK);
-			contraseñaTF.setBorder(null);
-			contraseñaTF.setBackground(this.colorBlanco);
+	private JTextField getContrasenaTF() {
+		if(contrasenaTF == null) {
+			contrasenaTF = new JTextField();
+			contrasenaTF.setBounds(110, 131, 250, 14);
+			contrasenaTF.setToolTipText(""); //para que este vacio
+			contrasenaTF.setForeground(Color.BLACK);
+			contrasenaTF.setBorder(null);
+			contrasenaTF.setBackground(this.colorBlanco);
 		}
-		return contraseñaTF;
+		return contrasenaTF;
 	}
 	
-	public JLabel getContraseña_2() { //si no se ha creado la etiqueta todavia, la creamos
-		if(contraseña_2_Lbl == null) {
-			contraseña_2_Lbl = new JLabel("Repetir contraseña:");
-			contraseña_2_Lbl.setBounds(180, 160, 150, 14);
-			contraseña_2_Lbl.setForeground(azulCielo);
+	public JLabel getContrasena_2() { //si no se ha creado la etiqueta todavia, la creamos
+		if(contrasena_2_Lbl == null) {
+			contrasena_2_Lbl = new JLabel("Repetir contrasena:");
+			contrasena_2_Lbl.setBounds(180, 160, 150, 14);
+			contrasena_2_Lbl.setForeground(azulCielo);
 		}
-		return contraseña_2_Lbl;
+		return contrasena_2_Lbl;
 	}
 	
-	private JTextField getContraseñaTF_2() {
-		if(contraseña_2_TF == null) {
-			contraseña_2_TF = new JTextField();
-			contraseña_2_TF.setBounds(110, 189, 250, 14);
-			contraseña_2_TF.setToolTipText(""); //para que este vacio
-			contraseña_2_TF.setForeground(Color.BLACK);
-			contraseña_2_TF.setBorder(null);
-			contraseña_2_TF.setBackground(this.colorBlanco);
+	private JTextField getContrasenaTF_2() {
+		if(contrasena_2_TF == null) {
+			contrasena_2_TF = new JTextField();
+			contrasena_2_TF.setBounds(110, 189, 250, 14);
+			contrasena_2_TF.setToolTipText(""); //para que este vacio
+			contrasena_2_TF.setForeground(Color.BLACK);
+			contrasena_2_TF.setBorder(null);
+			contrasena_2_TF.setBackground(this.colorBlanco);
 		}
-		return contraseña_2_TF;
+		return contrasena_2_TF;
 	}
 	
 	////////////// creamos los labels y los TF //////////////
@@ -243,24 +243,24 @@ public class RegistroVista extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						if(usuarioTF.getText().length() != 0 && contraseñaTF.getText().length() != 0 && contraseña_2_TF.getText().length() != 0) {
+						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0 && contrasena_2_TF.getText().length() != 0) {
 							if(!r.comprobarUsuario(usuarioTF.getText())){
-								if (contraseñaTF.getText().equals(contraseña_2_TF.getText())){
-									int a = r.Guardar((String) usuarioTF.getText(),(String) contraseñaTF.getText());
+								if (contrasenaTF.getText().equals(contrasena_2_TF.getText())){
+									int a = r.Guardar((String) usuarioTF.getText(),(String) contrasenaTF.getText());
 									setVisible(false);	
-									contraseña_2_TF.setText("");
-									contraseñaTF.setText("");
+									contrasena_2_TF.setText("");
+									contrasenaTF.setText("");
 									usuarioTF.setText("");
 									LoginVista lg = LoginVista.getLogin();
 									lg.setVisible(true);
 								}else {
-									throw new ExceptionModificable(registro, "Las contraseñas no coinciden");
+									throw new ExceptionModificable(registro, "Las contrasenas no coinciden");
 								}
 							}else {
 								throw new ExceptionModificable(registro, "El usuario ya existe!");
 							}
 						}else {
-							throw new ExceptionModificable(registro, "El usuario y/o contraseñas no pueden estar vacios!");
+							throw new ExceptionModificable(registro, "El usuario y/o contrasenas no pueden estar vacios!");
 						}
 					}catch(ExceptionModificable se) {
 						se.imprimirMensaje();
