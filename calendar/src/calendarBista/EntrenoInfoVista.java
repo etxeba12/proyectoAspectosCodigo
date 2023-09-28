@@ -93,7 +93,7 @@ public class EntrenoInfoVista  extends JFrame{
 		respuesta.next();
 		String series = respuesta.getString("series");
 		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  1 ,3));
-		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS));
+		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS)); //para que se ponga una linea debajo de la otra
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 		this.tabla.setBounds(0, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
@@ -120,7 +120,7 @@ public class EntrenoInfoVista  extends JFrame{
 		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
 		Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
 		while(i <= Integer.parseInt(series)) {
-			String reps = respuesta.getString("repes");
+			String reps = respuesta.getString("repeticiones");
 			JLabel repes = new JLabel(reps);
 			repes.setBounds(240, 0 ,100 , 25);
 			JTextField kilos = new JTextField();

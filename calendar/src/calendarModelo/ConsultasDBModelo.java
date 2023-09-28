@@ -38,7 +38,7 @@ public class ConsultasDBModelo extends BD{
 	}
 	
 	public ResultSet conseguirInfoEntreno(String pNombre) throws SQLException{
-		ResultSet respuesta = obtenerDatos("SELECT `series`, `repes` FROM `ejercicios` WHERE nombre = '"+pNombre+"'; ");
+		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones` FROM `ejercicios` WHERE ejercicio = '"+pNombre+"'; ");
 		return respuesta;
 	}
 }

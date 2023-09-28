@@ -48,7 +48,7 @@ public class EntrenoDiarioVista extends JFrame {
 		private ConsultasDBModelo cd = new ConsultasDBModelo();
 		private String fecha;
 		
-		private EntrenoDiarioVista(String pFecha) throws SQLException {
+		EntrenoDiarioVista(String pFecha) throws SQLException { //HAY QUE MIRAR ESTO
 			fecha = pFecha;
 			setTitle("Entreno diario"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
@@ -198,7 +198,7 @@ public class EntrenoDiarioVista extends JFrame {
 			ResultSet respuesta = cd.conseguirEntreno(fecha);
 			Integer i = 1;
 			while(respuesta.next()) {
-				String ejer = respuesta.getString("nombre");
+				String ejer = respuesta.getString("ejercicio");
 				String botoiIZena = "boton" + i.toString();
 				JButton boton  = new JButton(botoiIZena);
 				boton.setText(ejer);
