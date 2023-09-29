@@ -26,10 +26,8 @@ public class CalendariVista extends JFrame implements Observer {
 	
         private static CalendariVista calendario ;
         private Gestor g = Gestor.getGestor();
-        private int year = LocalDate.now().getYear();
-        private int ano = year;
-        private String month = LocalDate.now().getMonth().toString();
-        private String m = month;
+        private int ano ;
+        private String m ;
         private Color azulCielo = new Color(31, 197, 203);
         private Color color1 = new Color(231, 231, 231);
         private JPanel window;
@@ -41,17 +39,19 @@ public class CalendariVista extends JFrame implements Observer {
         private JButton b;
         private JPanel parteArriba;
         private JPanel CalendarioDias;
-        private JPanel linea;
 
-        public static CalendariVista getCalendario(){
+
+        public static CalendariVista getCalendario(int ano,String mes){
             if(calendario==null){
-            	calendario = new CalendariVista();
+            	calendario = new CalendariVista(ano,mes);
             }
             return calendario;
         }
         
 
-    private CalendariVista(){
+    private CalendariVista(int ano, String mes){
+	    	this.ano = ano;
+			this.m = mes;
 	    	setTitle("Calendario entreno"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
 			setBounds(120, 120, 500, 300);
@@ -117,7 +117,6 @@ public class CalendariVista extends JFrame implements Observer {
     private JLabel getMes(){
         if(mes==null){
             mes = new JLabel();
-            //mes.setText(m);
             mes.setText(m);
             mes.setVerticalAlignment(SwingConstants.CENTER);
             mes.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,15 +147,11 @@ public class CalendariVista extends JFrame implements Observer {
 		this.CalendarioDias.setBounds(0, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.CalendarioDias.setBorder(borde);
-		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
 		
 		Calendar calen = Calendar.getInstance();
 		calen.set(Calendar.YEAR, this.ano);
 		calen.set(Calendar.MONTH, g.numeroDeMes(m) );
-		System.out.println(g.numeroDeMes(m) + " " + m);
 		int maxDias = calen.getActualMaximum(Calendar.DAY_OF_MONTH);
-		System.out.println(maxDias);
         for (int i = 1; i <= maxDias; i++) {
             b = new JButton(Integer.toString(i));
             b.setContentAreaFilled(false);
@@ -192,10 +187,10 @@ public class CalendariVista extends JFrame implements Observer {
                 //window.setVisible(false);
                 String a = labelano.getText();
                 String m = mes.getText();
-                String d = b.getText();
+                String d = ((AbstractButton) e.getSource()).getText();
                 try {
                 	setVisible(false);
-					EntrenoDiarioVista dl = new EntrenoDiarioVista("2023-09-23");
+					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d));
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -205,27 +200,36 @@ public class CalendariVista extends JFrame implements Observer {
 
             }
 
-
-
         }
     }
 
-
-
+    private String crearFormatoFecha(String ano,String mes,String dia) {
+    	String fecha ;
+    	int numMes = g.numeroDeMes(mes) + 1;
+    	if(numMes < 10) {
+    		mes = "0" + numMes;    	
+    	}else {
+    		mes = "" + numMes;
+    	} 
+    	fecha = ano + "-" + mes + "-" + dia;
+    	return fecha;
+    	
+    }
 
 
     @Override
     public void update(Observable o, Object arg) {
         m = g.getMes();
         ano = g.getAno();
-        mes.setText(m); // Actualiza el texto de la etiqueta mes
-        labelano.setText(Integer.toString(ano)); 
-        repaint();
+        if (calendario != null) {
+            calendario.dispose();
+        }
 
-        //System.out.println(g.getMes());
-        //System.out.println(g.getAno());
+        // Crear una nueva instancia de CalendariVista
+        calendario = new CalendariVista(ano, m);
 
-
+        setVisible(false);
+        calendario.setVisible(true);
 
     }
 }

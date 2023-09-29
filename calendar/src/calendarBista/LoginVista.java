@@ -29,6 +29,8 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Calendar;
 
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
@@ -215,7 +217,7 @@ public class LoginVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
 							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
-								CalendariVista cl = CalendariVista.getCalendario();
+								CalendariVista cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString());
 								cl.setVisible(true);
 							}else {
 								throw new ExceptionModificable(login, "¡El usuario y/o contrasena incorrectos!");

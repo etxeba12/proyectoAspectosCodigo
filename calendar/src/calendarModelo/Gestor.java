@@ -35,8 +35,6 @@ public class Gestor extends Observable {
                 if(i<0){
                     ano--;
                     i=11;
-                    m = meses[11];
-                    encontrado=true;
 
                 }
                 m = meses[i];
@@ -47,7 +45,7 @@ public class Gestor extends Observable {
         }
         setChanged();
         notifyObservers();
-        CalendariVista.getCalendario().getMesTabla();
+
         //funciona
 
 
@@ -64,8 +62,6 @@ public class Gestor extends Observable {
                 if(i==12){
                     i=0;
                     ano++;
-                    m = meses[i];
-                    encontrado = true;
 
                 }
 
@@ -75,25 +71,14 @@ public class Gestor extends Observable {
 
             }
         }
-
-        setChanged();;
+        setChanged();
         notifyObservers();
-        CalendariVista.getCalendario().getMesTabla();
-
+     
         }
 
         //funciona
 
-    public void calcularDiaSiguiente(String fechaStr) throws java.text.ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = dateFormat.parse(fechaStr);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fecha);
-        calendar.add(Calendar.MONTH, 1);
-        String m = dateFormat.format(calendar.getTime());
-
-        //return diaSiguienteStr;
-    }
+  
 
     public int numeroDeMes(String mes) {
     	Locale locale = new Locale("en", "US"); // "en" para inglés, "US" para Estados Unidos
