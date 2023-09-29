@@ -44,7 +44,11 @@ public class CalendariVista extends JFrame implements Observer {
         public static CalendariVista getCalendario(int ano,String mes){
             if(calendario==null){
             	calendario = new CalendariVista(ano,mes);
+            }else {
+            	calendario.setAno(ano);
+            	calendario.setMes(mes);
             }
+            
             return calendario;
         }
         
@@ -53,7 +57,7 @@ public class CalendariVista extends JFrame implements Observer {
 	    	this.ano = ano;
 			this.m = mes;
 	    	setTitle("Calendario entreno"); //titulo de la pagina
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaï¿½a
 			setBounds(120, 120, 500, 300);
             window = new JPanel();
             this.window.setBackground(this.color1); //definimos color de fondo
@@ -136,6 +140,9 @@ public class CalendariVista extends JFrame implements Observer {
 
     public  void setAno(int a){
         this.ano = a;
+    }
+    public void setMes(String mes) {
+    	this.m = mes;
     }
     
     // tablero de meses y actualizacion del tablero
@@ -221,15 +228,17 @@ public class CalendariVista extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         m = g.getMes();
         ano = g.getAno();
+        
+        
         if (calendario != null) {
             calendario.dispose();
         }
-
-        // Crear una nueva instancia de CalendariVista
-        calendario = new CalendariVista(ano, m);
-
+        // Crear una nueva instancia de CalendariVista 
         setVisible(false);
+        
+        calendario = new CalendariVista(ano, m);
         calendario.setVisible(true);
+        
 
     }
 }

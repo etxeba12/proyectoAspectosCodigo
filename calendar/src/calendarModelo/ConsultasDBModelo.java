@@ -8,7 +8,7 @@ public class ConsultasDBModelo extends BD{
 
 	public int Guardar(String Usuario, String Contrasena) {
 		
-		return SetInformacion("INSERT INTO `gymcalendar`.`usuarios`(`nombre`,`contraseña`) VALUES ('"+Usuario +"','"+Contrasena+"');");
+		return SetInformacion("INSERT INTO `gymcalendar`.`usuarios`(`nombre`,`contraseÃ±a`) VALUES ('"+Usuario +"','"+Contrasena+"');");
 	}
 	
 	public boolean comprobarUsuario(String usuario) throws SQLException {
@@ -23,7 +23,7 @@ public class ConsultasDBModelo extends BD{
 	}
 	
 	public boolean loginValido(String usuario, String Contrasena) throws SQLException {
-		ResultSet respuesta = obtenerDatos("SELECT * FROM `usuarios` WHERE nombre = '"+usuario+"' AND contraseña = '"+Contrasena+"';");
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `usuarios` WHERE nombre = '"+usuario+"' AND contraseÃ±a = '"+Contrasena+"';");
 		if(respuesta.next()) {
 			return true;
 		}
