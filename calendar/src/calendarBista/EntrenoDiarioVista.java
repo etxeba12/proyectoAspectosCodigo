@@ -32,6 +32,7 @@ import javax.swing.border.EmptyBorder;
 import exceptions.ExceptionModificable;
 import calendarModelo.ConsultasDBModelo;
 import calendarBista.EntrenoInfoVista;
+import calendarBista.CalendariVista;
 
 
 public class EntrenoDiarioVista extends JFrame {
@@ -39,6 +40,7 @@ public class EntrenoDiarioVista extends JFrame {
 		private JLabel fechaTitulo;
 		private JButton flechaAtras;
 		private JButton flechaDelante;
+		private JButton volverCalendar;
 		private Color azulCielo = new Color(31, 197, 203);
 		private Color color1 = new Color(231, 231, 231); //definir color de panel atras
 		private static EntrenoDiarioVista miEntrenoDiario;
@@ -54,7 +56,7 @@ public class EntrenoDiarioVista extends JFrame {
 			nombre = pNombre;
 			setTitle("Entreno diario"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-			setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
+			setBounds(120, 120, 518, 309); // definimos tamaño del panel a mano
 			entrenoDiario = new JPanel();
 			this.entrenoDiario.setBackground(this.color1); //definimos color de fondo
 			entrenoDiario.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,11 +65,13 @@ public class EntrenoDiarioVista extends JFrame {
 			{
 				this.parteArriba = new JPanel();
 				this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-				this.parteArriba.setBounds(0, 5, 500, 35);
+				this.parteArriba.setBounds(1, 5, 500, 35);
 				Border borde = BorderFactory.createLineBorder(Color.black, 1);
 				this.parteArriba.setBorder(borde);
+				this.parteArriba.setLayout(null);
 				this.parteArriba.setBackground(azulCielo);
-				this.entrenoDiario.add(this.parteArriba); 
+				this.entrenoDiario.add(this.parteArriba);
+				this.parteArriba.add(getVolverCalendario());
 				this.parteArriba.add(getFlechaAtras());
 				this.parteArriba.add(getFecha());
 				this.parteArriba.add(getFlechaDelante());
@@ -89,9 +93,9 @@ public class EntrenoDiarioVista extends JFrame {
 		public JLabel getFecha() { //si no se ha creado la etiqueta todavia, la creamos
 			if(fechaTitulo == null) {
 				fechaTitulo = new JLabel(fecha);
-				fechaTitulo.setBounds(0, 0, 140, 120);
+				fechaTitulo.setBounds(190, 5, 100, 25);
 				fechaTitulo.setForeground(Color.white);
-				fechaTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				fechaTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 				
 			}
 			return fechaTitulo;
@@ -101,12 +105,37 @@ public class EntrenoDiarioVista extends JFrame {
 		
 		
 		//////////////botones //////////////
+		
+		private JButton getVolverCalendario() {
+			if(volverCalendar == null) {
+				volverCalendar = new JButton();
+				volverCalendar.setBackground(this.azulCielo);
+				volverCalendar.setBorder(null);
+				volverCalendar.setBounds(425, 5, 50, 25);
+				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/home.png"));
+				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+				volverCalendar.setIcon(new ImageIcon(imagenRedimensionada));
+				volverCalendar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				volverCalendar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				volverCalendar.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre);
+						ed.setVisible(true);
+						dispose(); 
+					}
+				});
+			}
+			return volverCalendar;
+		}
 				
 		private JButton getFlechaAtras() {
 			if(flechaAtras == null) {
 				flechaAtras = new JButton();
 				flechaAtras.setBackground(this.azulCielo);
 				flechaAtras.setBorder(null);
+				flechaAtras.setBounds(125, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/atras.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	            flechaAtras.setIcon(new ImageIcon(imagenRedimensionada));
@@ -140,6 +169,7 @@ public class EntrenoDiarioVista extends JFrame {
 				flechaDelante = new JButton();
 				flechaDelante.setBackground(this.azulCielo);
 				flechaDelante.setBorder(null);
+				flechaDelante.setBounds(295, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/flecha-correcta.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 				flechaDelante.setIcon(new ImageIcon(imagenRedimensionada));
@@ -194,7 +224,7 @@ public class EntrenoDiarioVista extends JFrame {
 			this.tabla = new JPanel();
 			tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS));
 			this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-			this.tabla.setBounds(0, 45, 500, 220);
+			this.tabla.setBounds(1, 45, 500, 220);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.tabla.setBorder(borde);
 			ResultSet respuesta = cd.conseguirEntreno(fecha,nombre);

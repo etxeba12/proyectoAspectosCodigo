@@ -60,15 +60,16 @@ public class CalendariVista extends JFrame implements Observer {
 			this.nombre = pNombre;
 	    	setTitle("Calendario entreno"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
-			setBounds(120, 120, 500, 300);
+			setBounds(120, 120, 518, 309);
             window = new JPanel();
             this.window.setBackground(this.color1); //definimos color de fondo
             window.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(window); //colocamos el panel dentro de la ventana principal.
+			window.setLayout(null);
 			{
 				this.parteArriba = new JPanel();
 				this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-				this.parteArriba.setBounds(0, 5, 500, 300);
+				this.parteArriba.setBounds(1, 5, 500, 35);
 				Border borde = BorderFactory.createLineBorder(Color.black, 1);
 				this.parteArriba.setBorder(borde);
 				this.parteArriba.setBackground(azulCielo);
@@ -147,13 +148,11 @@ public class CalendariVista extends JFrame implements Observer {
     	this.m = mes;
     }
     
-    // tablero de meses y actualizacion del tablero
-    
     public JPanel getMesTabla() {
 
-    	CalendarioDias = new JPanel(new GridLayout(4 ,7));
+    	CalendarioDias = new JPanel(new GridLayout(5 ,7));
 		this.CalendarioDias.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-		this.CalendarioDias.setBounds(0, 45, 500, 220);
+		this.CalendarioDias.setBounds(1, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.CalendarioDias.setBorder(borde);
 		
@@ -173,7 +172,6 @@ public class CalendariVista extends JFrame implements Observer {
     	
     }
     
-    // tablero de meses y actualizacion del tablero
 
     public class Controlador implements ActionListener{
         @Override
@@ -183,29 +181,24 @@ public class CalendariVista extends JFrame implements Observer {
                 String m = mes.getText();
                 g.pasaAlAnterior(m,ano);
 
-                //System.out.println("PREVIO");
             }else if(e.getSource() == siguiente){
                 String m = mes.getText();
                 String a = labelano.getText();
 
-               // String fecha = a+"-"+m+"-"+d;
                 g.pasaAlSiguiente(m,ano);
-                //g.calcularDiaSiguiente(f);
 
             }else{
-                //window.setVisible(false);
+ 
                 String a = labelano.getText();
                 String m = mes.getText();
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
-                	setVisible(false);
 					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d),nombre);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                //g.abreEntrenamiento("");
 
             }
 

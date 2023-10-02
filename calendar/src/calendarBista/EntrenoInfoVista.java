@@ -48,7 +48,7 @@ public class EntrenoInfoVista  extends JFrame{
 		nombreEjer = pEjer;
 		setTitle("Información entreno"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-		setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
+		setBounds(120, 120, 518, 309); // definimos tamaño del panel a mano
 		entrenoInfo = new JPanel();
 		this.entrenoInfo.setBackground(this.color1); //definimos color de fondo
 		entrenoInfo.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,7 +57,7 @@ public class EntrenoInfoVista  extends JFrame{
 		{
 			this.parteArriba = new JPanel();
 			this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-			this.parteArriba.setBounds(0, 5, 500, 35);
+			this.parteArriba.setBounds(1, 5, 500, 35);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.parteArriba.setBorder(borde);
 			this.parteArriba.setBackground(azulCielo);
@@ -98,7 +98,7 @@ public class EntrenoInfoVista  extends JFrame{
 		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  1 ,3));
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS)); //para que se ponga una linea debajo de la otra
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-		this.tabla.setBounds(0, 45, 500, 220);
+		this.tabla.setBounds(1, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.tabla.setBorder(borde);
 		Integer i = 1;
