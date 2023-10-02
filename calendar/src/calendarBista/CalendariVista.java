@@ -229,16 +229,14 @@ public class CalendariVista extends JFrame implements Observer {
         m = g.getMes();
         ano = g.getAno();
         
-        
         if (calendario != null) {
+            g.deleteObserver(calendario); // Desregistra la instancia anterior
             calendario.dispose();
         }
-        // Crear una nueva instancia de CalendariVista 
-        setVisible(false);
-        
+
         calendario = new CalendariVista(ano, m);
         calendario.setVisible(true);
+        g.addObserver(calendario); // Registra la nueva instancia
         
-
     }
 }
