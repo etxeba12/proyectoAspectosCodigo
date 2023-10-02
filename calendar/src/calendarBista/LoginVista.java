@@ -11,6 +11,7 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -50,7 +51,7 @@ public class LoginVista extends JFrame {
 	private JLabel usuarioLbl = null;
 	private JTextField usuarioTF;
 	private JLabel contrasenaLbl = null;
-	private JTextField contrasenaTF;
+	private JPasswordField contrasenaTF;
 	private JSeparator separador;
 	private JSeparator separador_1;
 	private JButton botonRegistro;
@@ -101,6 +102,7 @@ public class LoginVista extends JFrame {
 			this.panelBotones.add(getBotonLogin());
 			
 		}
+		this.getRootPane().setDefaultButton(botonLogin);
 		this.login.add(getSeparador1()); //poner linea debajo del TF		
 		setLocationRelativeTo(null);
 	}
@@ -122,7 +124,7 @@ public class LoginVista extends JFrame {
 	
 	public JLabel getBienvenida() { //si no se ha creado la etiqueta todavia, la creamos
 		if(bienvenidaLbl == null) {
-			bienvenidaLbl = new JLabel("¡LOGEATE!");
+			bienvenidaLbl = new JLabel("ï¿½LOGEATE!");
 			bienvenidaLbl.setBounds(195, -40, 105, 120);
 			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			bienvenidaLbl.setForeground(colorBlanco);
@@ -162,9 +164,9 @@ public class LoginVista extends JFrame {
 		return contrasenaLbl;
 	}
 	
-	private JTextField getContrasenaTF() {
+	private JPasswordField getContrasenaTF() {
 		if(contrasenaTF == null) {
-			contrasenaTF = new JTextField();
+			contrasenaTF = new JPasswordField();
 			contrasenaTF.setBounds(110, 151, 250, 14);
 			contrasenaTF.setToolTipText(""); //para que este vacio
 			contrasenaTF.setForeground(Color.BLACK);
@@ -220,10 +222,10 @@ public class LoginVista extends JFrame {
 								CalendariVista cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText());
 								cl.setVisible(true);
 							}else {
-								throw new ExceptionModificable(login, "¡El usuario y/o contrasena incorrectos!");
+								throw new ExceptionModificable(login, "!El usuario y/o contrasena incorrectos!");
 							}
 						}else {
-							throw new ExceptionModificable(login, "¡El usuario y/o la contrasena no pueden estar vacios!");
+							throw new ExceptionModificable(login, "!El usuario y/o la contrasena no pueden estar vacios!");
 						}
 					}catch(ExceptionModificable se) {
 						usuarioTF.setText("");
