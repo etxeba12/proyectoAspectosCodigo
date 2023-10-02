@@ -39,11 +39,12 @@ public class CalendariVista extends JFrame implements Observer {
         private JButton b;
         private JPanel parteArriba;
         private JPanel CalendarioDias;
+        private String nombre;
 
 
-        public static CalendariVista getCalendario(int ano,String mes){
+        public static CalendariVista getCalendario(int ano,String mes,String pNombre){
             if(calendario==null){
-            	calendario = new CalendariVista(ano,mes);
+            	calendario = new CalendariVista(ano,mes,pNombre);
             }else {
             	calendario.setAno(ano);
             	calendario.setMes(mes);
@@ -53,9 +54,10 @@ public class CalendariVista extends JFrame implements Observer {
         }
         
 
-    private CalendariVista(int ano, String mes){
+    private CalendariVista(int ano, String mes,String pNombre){
 	    	this.ano = ano;
 			this.m = mes;
+			this.nombre = pNombre;
 	    	setTitle("Calendario entreno"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 			setBounds(120, 120, 500, 300);
@@ -197,7 +199,7 @@ public class CalendariVista extends JFrame implements Observer {
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
                 	setVisible(false);
-					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d));
+					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d),nombre);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -234,7 +236,7 @@ public class CalendariVista extends JFrame implements Observer {
             calendario.dispose();
         }
 
-        calendario = new CalendariVista(ano, m);
+        calendario = new CalendariVista(ano, m,this.nombre);
         calendario.setVisible(true);
         g.addObserver(calendario); // Registra la nueva instancia
         

@@ -8,12 +8,12 @@ public class ConsultasDBModelo extends BD{
 
 	public int Guardar(String Usuario, String Contrasena) {
 		
-		return SetInformacion("INSERT INTO `gymcalendar`.`usuarios`(`nombre`,`contraseña`) VALUES ('"+Usuario +"','"+Contrasena+"');");
+		return SetInformacion("INSERT INTO `gymcalendar`.`clientes`(`nombre`,`contrasena`) VALUES ('"+Usuario +"','"+Contrasena+"');");
 	}
 	
 	public boolean comprobarUsuario(String usuario) throws SQLException {
 		
-		ResultSet respuesta = obtenerDatos("SELECT * FROM `usuarios` WHERE nombre = '"+usuario+"';");
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `clientes` WHERE nombre = '"+usuario+"';");
 		if(respuesta.next()) {
 			return true;
 		}
@@ -23,7 +23,7 @@ public class ConsultasDBModelo extends BD{
 	}
 	
 	public boolean loginValido(String usuario, String Contrasena) throws SQLException {
-		ResultSet respuesta = obtenerDatos("SELECT * FROM `usuarios` WHERE nombre = '"+usuario+"' AND contraseña = '"+Contrasena+"';");
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `clientes` WHERE nombre = '"+usuario+"' AND contrasena = '"+Contrasena+"';");
 		if(respuesta.next()) {
 			return true;
 		}
@@ -32,13 +32,13 @@ public class ConsultasDBModelo extends BD{
 		}
 	}
 	
-	public ResultSet conseguirEntreno(String fecha) throws SQLException {
-		ResultSet respuesta = obtenerDatos("SELECT * FROM `ejercicios` WHERE fecha='"+fecha+"'; ");
+	public ResultSet conseguirEntreno(String fecha,String pNombre) throws SQLException {
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `calendario` WHERE fecha='"+fecha+"' AND cliente_nombre = '"+pNombre+"' ; ");
 		return respuesta;
 	}
 	
 	public ResultSet conseguirInfoEntreno(String pNombre) throws SQLException{
-		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones` FROM `ejercicios` WHERE ejercicio = '"+pNombre+"'; ");
+		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones` FROM `calendario` WHERE nombreEjercicio = '"+pNombre+"'; ");
 		return respuesta;
 	}
 	

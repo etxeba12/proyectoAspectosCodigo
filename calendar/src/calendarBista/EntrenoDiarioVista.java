@@ -47,9 +47,11 @@ public class EntrenoDiarioVista extends JFrame {
 		private JPanel tabla;
 		private ConsultasDBModelo cd = new ConsultasDBModelo();
 		private String fecha;
+		private String nombre;
 		
-		EntrenoDiarioVista(String pFecha) throws SQLException { //HAY QUE MIRAR ESTO
+		EntrenoDiarioVista(String pFecha,String pNombre) throws SQLException { //HAY QUE MIRAR ESTO
 			fecha = pFecha;
+			nombre = pNombre;
 			setTitle("Entreno diario"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestaña
 			setBounds(120, 120, 500, 300); // definimos tamaño del panel a mano
@@ -74,9 +76,9 @@ public class EntrenoDiarioVista extends JFrame {
 			setLocationRelativeTo(null);
 		}
 		
-		public static EntrenoDiarioVista getMiEntreno(String pFecha) throws SQLException {
+		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre) throws SQLException {
 			if( miEntrenoDiario == null) {
-				miEntrenoDiario = new EntrenoDiarioVista(pFecha);
+				miEntrenoDiario = new EntrenoDiarioVista(pFecha,pNombre);
 			}
 			return miEntrenoDiario;
 		}
@@ -117,7 +119,7 @@ public class EntrenoDiarioVista extends JFrame {
 						// TODO Auto-generated method stub
 						try {
 							String fechaAnterior = calcularDiaAnterior(fecha);
-		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaAnterior);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaAnterior,nombre);
 		                    ed.setVisible(true);
 		                    dispose();
 						} catch (SQLException e1) {
@@ -150,7 +152,7 @@ public class EntrenoDiarioVista extends JFrame {
 						// falta mirar que pasa si un entreno que busques no existe	 
 						try {
 							String fechaSiguiente = calcularDiaSiguiente(fecha);
-		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaSiguiente);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaSiguiente,nombre);
 		                    ed.setVisible(true);
 		                    dispose();
 						} catch (SQLException e1) {
@@ -195,10 +197,10 @@ public class EntrenoDiarioVista extends JFrame {
 			this.tabla.setBounds(0, 45, 500, 220);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.tabla.setBorder(borde);
-			ResultSet respuesta = cd.conseguirEntreno(fecha);
+			ResultSet respuesta = cd.conseguirEntreno(fecha,nombre);
 			Integer i = 1;
 			while(respuesta.next()) {
-				String ejer = respuesta.getString("ejercicio");
+				String ejer = respuesta.getString("nombreEjercicio");
 				String botoiIZena = "boton" + i.toString();
 				JButton boton  = new JButton(botoiIZena);
 				boton.setText(ejer);
