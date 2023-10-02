@@ -41,4 +41,12 @@ public class ConsultasDBModelo extends BD{
 		ResultSet respuesta = obtenerDatos("SELECT `series`, `repes` FROM `ejercicios` WHERE nombre = '"+pNombre+"'; ");
 		return respuesta;
 	}
+	
+	/*
+	public int actualizarInfo(String kilos, String RPE,String pNombre) {
+		
+		return SetInformacion("INSERT INTO `gymcalendar`.`ejercicios`(`kilos`,`RPE`) VALUES ('"+kilos +"','"+RPE+"') WHERE nombre = '"+pNombre+"';");
+	}
+	*/
+	
 }

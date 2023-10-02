@@ -29,6 +29,7 @@ import calendarModelo.ConsultasDBModelo;
 public class EntrenoInfoVista  extends JFrame{
 	
 	private JLabel nombreEjercicio;
+	private Color colorBlanco = new Color(255,255,255); //definir color de atras
 	private Color color1 = new Color(231, 231, 231); //definir color de panel atras
 	private Color azulCielo = new Color(31, 197, 203);
 	private static EntrenoInfoVista miEntrenoInfo;
@@ -38,6 +39,8 @@ public class EntrenoInfoVista  extends JFrame{
 	private ConsultasDBModelo cd = new ConsultasDBModelo();
 	private JPanel tabla;
 	private JPanel linea;
+	private JButton botonGuardar;
+	private String series;
 	
 	
 	//preguntar xq nos pide que cambiemos la visibilidad
@@ -91,7 +94,7 @@ public class EntrenoInfoVista  extends JFrame{
 	private JPanel getEntrenamientos() throws SQLException {
 		ResultSet respuesta = cd.conseguirInfoEntreno(nombreEjer);
 		respuesta.next();
-		String series = respuesta.getString("series");
+		series = respuesta.getString("series");
 		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  1 ,3));
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS));
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
@@ -145,5 +148,30 @@ public class EntrenoInfoVista  extends JFrame{
 		}
 		return tabla;
 	}
+	
+	/*
+	private JButton getBotonGuardar() {
+		if(botonGuardar == null) {
+			botonGuardar = new JButton();
+			botonGuardar.setBackground(this.azulCielo);
+			botonGuardar.setForeground(colorBlanco);
+			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
+			botonGuardar.setBorder(borde);
+			botonGuardar.setText(" ACTUALIZAR ");
+			botonGuardar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					int i = 1;
+					while(i <= Integer.parseInt(series)) {
+						cd.actualizarInfo(nombreEjer, nombreEjer);
+					}
+				}
+			});
+		}
+		return botonGuardar;
+	}
+	*/
 
 }
