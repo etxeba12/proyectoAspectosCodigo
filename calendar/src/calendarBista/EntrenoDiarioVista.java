@@ -95,7 +95,7 @@ public class EntrenoDiarioVista extends JFrame {
 				fechaTitulo = new JLabel(fecha);
 				fechaTitulo.setBounds(190, 5, 100, 25);
 				fechaTitulo.setForeground(Color.white);
-				fechaTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				fechaTitulo.setFont(new Font("Tahoma", Font.PLAIN, 17));
 				
 			}
 			return fechaTitulo;
@@ -111,7 +111,7 @@ public class EntrenoDiarioVista extends JFrame {
 				volverCalendar = new JButton();
 				volverCalendar.setBackground(this.azulCielo);
 				volverCalendar.setBorder(null);
-				volverCalendar.setBounds(425, 5, 50, 25);
+				volverCalendar.setBounds(445, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/home.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 				volverCalendar.setIcon(new ImageIcon(imagenRedimensionada));
@@ -121,9 +121,19 @@ public class EntrenoDiarioVista extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre);
-						ed.setVisible(true);
-						dispose(); 
+						CalendariVista ed;
+						try {
+							ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre);
+							ed.setVisible(true);
+							dispose();
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					}
 				});
 			}
@@ -135,7 +145,7 @@ public class EntrenoDiarioVista extends JFrame {
 				flechaAtras = new JButton();
 				flechaAtras.setBackground(this.azulCielo);
 				flechaAtras.setBorder(null);
-				flechaAtras.setBounds(125, 5, 50, 25);
+				flechaAtras.setBounds(115, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/atras.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	            flechaAtras.setIcon(new ImageIcon(imagenRedimensionada));
@@ -169,7 +179,7 @@ public class EntrenoDiarioVista extends JFrame {
 				flechaDelante = new JButton();
 				flechaDelante.setBackground(this.azulCielo);
 				flechaDelante.setBorder(null);
-				flechaDelante.setBounds(295, 5, 50, 25);
+				flechaDelante.setBounds(305, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/flecha-correcta.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 				flechaDelante.setIcon(new ImageIcon(imagenRedimensionada));

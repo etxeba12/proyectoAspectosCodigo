@@ -44,11 +44,16 @@ public class ConsultasDBModelo extends BD{
 		return respuesta;
 	}
 	
-	/*
-	public int actualizarInfo(String kilos, String RPE,String pNombre) {
+	
+	public boolean hayEntreno(String fecha,String pNombre) throws SQLException {
 		
-		return SetInformacion("INSERT INTO `gymcalendar`.`ejercicios`(`kilos`,`RPE`) VALUES ('"+kilos +"','"+RPE+"') WHERE nombre = '"+pNombre+"';");
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `calendario` WHERE fecha='"+fecha+"' AND cliente_nombre = '"+pNombre+"' ; ");
+		if(respuesta.next()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
-	*/
 	
 }

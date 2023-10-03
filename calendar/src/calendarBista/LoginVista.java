@@ -221,6 +221,8 @@ public class LoginVista extends JFrame {
 								setVisible(false);
 								CalendariVista cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText());
 								cl.setVisible(true);
+								usuarioTF.setText("");
+								contrasenaTF.setText("");
 							}else {
 								throw new ExceptionModificable(login, "!El usuario y/o contrasena incorrectos!");
 							}
