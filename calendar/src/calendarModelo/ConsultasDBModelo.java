@@ -41,4 +41,8 @@ public class ConsultasDBModelo extends BD{
 		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones` FROM `ejercicios` WHERE ejercicio = '"+pNombre+"'; ");
 		return respuesta;
 	}
+	public ResultSet conseguirClientes(String pNombre) throws SQLException{
+		ResultSet respuesta = obtenerDatos("SELECT `nombre` FROM `usuarios` WHERE entrenadoPor = '"+pNombre+"'; ");
+		return respuesta;
+	}
 }
