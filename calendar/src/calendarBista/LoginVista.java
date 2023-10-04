@@ -15,6 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import com.mysql.cj.protocol.Message;
+
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +31,7 @@ import javax.swing.Box;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -38,7 +41,9 @@ import javax.swing.ImageIcon;
 
 import calendarModelo.ConsultasDBModelo;
 import exceptions.ExceptionModificable;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class LoginVista extends JFrame {
 	
@@ -218,14 +223,15 @@ public class LoginVista extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
-							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
+							String aux = this.hash(contrasenaTF.getText());
+							if(r.loginValido(usuarioTF.getText(),aux)){
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								//CalendariVista cl = new CalendariVista(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								cl.setVisible(true);
 								usuarioTF.setText("");
 								contrasenaTF.setText("");
-							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
+							}else if(r.comprobarEntrenador(usuarioTF.getText(),aux)){
 								setVisible(false);
 								ElegirClienteVista ec = new ElegirClienteVista();
 								ec.setVisible(true);
@@ -245,6 +251,25 @@ public class LoginVista extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
+
+				private String hash(String pw) {
+					// TODO Auto-generated method stub
+					try {
+						MessageDigest md = MessageDigest.getInstance("SHA-256");
+						
+						byte[] passwordBytes = pw.getBytes();
+						
+						byte[] hashbytes = md.digest(passwordBytes);
+						
+						String hashed = Base64.getEncoder().encodeToString(hashbytes);
+						return hashed;
+					} catch (NoSuchAlgorithmException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					return null;
 				}
 			});
 		}

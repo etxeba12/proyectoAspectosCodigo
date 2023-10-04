@@ -11,6 +11,10 @@ public class ConsultasDBModelo extends BD{
 		return SetInformacion("INSERT INTO `gymcalendar`.`clientes`(`nombre`,`contrasena`) VALUES ('"+Usuario +"','"+Contrasena+"');");
 	}
 	
+	public int guardaEntreno(String user, String fecha, String nombre, int kilos, int series, int repes, int rpe) {
+		return SetInformacion("INSERT INTO `gymcalendar`.`calendario`(`fecha`,`nombreEjercicio`,`series`,`repeticiones`,`RPE`,`kilos`,`cliente_nombre`) VALUES ('"+fecha+"','"+nombre+"','"+series+"','"+repes+"','"+rpe+"','"+kilos+"','"+user+"');");
+	}
+	
 	public boolean comprobarUsuario(String usuario) throws SQLException {
 		
 		ResultSet respuesta = obtenerDatos("SELECT * FROM `clientes` WHERE nombre = '"+usuario+"';");

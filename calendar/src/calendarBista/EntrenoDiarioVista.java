@@ -297,7 +297,8 @@ public class EntrenoDiarioVista extends JFrame {
 						// TODO Auto-generated method stub
 						try {
 							InsertarEjercicioNuevoVista ie = new InsertarEjercicioNuevoVista();
-							
+							ie.setFecha(fecha);
+							ie.setNombre(nombre);
 							ie.setVisible(true);
 							dispose();
 						} catch (SQLException e1) {
