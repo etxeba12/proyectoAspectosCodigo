@@ -59,7 +59,7 @@ public class CalendariVista extends JFrame implements Observer {
         }
         
 
-    private CalendariVista(int ano, String mes,String pNombre) throws SQLException{
+    CalendariVista(int ano, String mes,String pNombre) throws SQLException{
 	    	this.ano = ano;
 			this.m = mes;
 			this.nombre = pNombre;
@@ -261,7 +261,9 @@ public class CalendariVista extends JFrame implements Observer {
                 String m = mes.getText();
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
-                	calendario.dispose();
+                	if(calendario != null) {
+                		calendario.dispose();
+                	}
 					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d),nombre);
 					dl.setVisible(true);
 				} catch (SQLException e1) {

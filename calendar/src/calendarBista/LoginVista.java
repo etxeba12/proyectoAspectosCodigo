@@ -219,7 +219,7 @@ public class LoginVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
 							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
-								CalendariVista cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText());
+								CalendariVista cl = new CalendariVista(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText());
 								cl.setVisible(true);
 								usuarioTF.setText("");
 								contrasenaTF.setText("");
