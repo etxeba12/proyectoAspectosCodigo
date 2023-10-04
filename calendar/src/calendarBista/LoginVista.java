@@ -62,7 +62,7 @@ public class LoginVista extends JFrame {
 	private JButton botonRegistro;
 	private JButton botonLogin;
 	private JPanel parteArriba;
-	private CalendariVista cl = null;
+	private CalendariVista cl ;
 	
 	private ConsultasDBModelo r = new ConsultasDBModelo();
 	
@@ -227,7 +227,6 @@ public class LoginVista extends JFrame {
 							if(r.loginValido(usuarioTF.getText(),aux)){
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
-								//CalendariVista cl = new CalendariVista(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								cl.setVisible(true);
 								usuarioTF.setText("");
 								contrasenaTF.setText("");

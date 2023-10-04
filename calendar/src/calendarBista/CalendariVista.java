@@ -13,9 +13,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,6 +30,7 @@ public class CalendariVista extends JFrame implements Observer {
        
 	
         private static CalendariVista calendario ;
+        private static Map<String, CalendariVista>  hashSingleton = new HashMap<>();
         private Gestor g = Gestor.getGestor();
         private int ano ;
         private String m ;
@@ -47,54 +50,59 @@ public class CalendariVista extends JFrame implements Observer {
         private JPanel CalendarioDias;
         private String nombre;
         private Boolean entrenador;
+        private EntrenoDiarioVista dl;
         private ConsultasDBModelo db = new ConsultasDBModelo();
-        private Map<String,CalendariVista> mapaDeCalendarios = new HashMap<>();
-
-
-        public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador) throws SQLException{
-            if(calendario==null){
-            	calendario = new CalendariVista(ano,mes,pNombre,pEntrenador);
-            }else {
-            	calendario.setAno(ano);
-            	calendario.setMes(mes);
-            }
-            
-            return calendario;
-        }
         
 
-    CalendariVista(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException{
-	    	this.ano = ano;
-			this.m = mes;
-			this.nombre = pNombre;
-			this.entrenador = pEntrenador;
-	    	setTitle("Calendario entreno"); //titulo de la pagina
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
-			setBounds(120, 120, 518, 309);
-            window = new JPanel();
-            this.window.setBackground(this.color1); //definimos color de fondo
-            window.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(window); //colocamos el panel dentro de la ventana principal.
-			window.setLayout(null);
-			{
-				this.parteArriba = new JPanel();
-				this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-				this.parteArriba.setBounds(1, 5, 500, 35);
-				Border borde = BorderFactory.createLineBorder(Color.black, 1);
-				this.parteArriba.setBorder(borde);
-				this.parteArriba.setBackground(azulCielo);
-				this.window.add(this.parteArriba); 
-				this.parteArriba.setLayout(null);
-				parteArriba.add(getUsuario());
-				parteArriba.add(getLogOut());
-				parteArriba.add(getPrevio());
-		        parteArriba.add(getAno());
-		        parteArriba.add(getMes());
-		        parteArriba.add(getSiguiente());
-			}
-			window.add(getMesTabla());
-            setLocationRelativeTo(null);
-            Gestor.getGestor().addObserver(this);
+
+    public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador) throws SQLException{
+        if(hashSingleton.get(pNombre) == null){
+        	calendario = new CalendariVista(ano, mes, pNombre, pEntrenador);
+        	hashSingleton.put(pNombre, calendario);
+        }
+        calendario = hashSingleton.get(pNombre);
+        return calendario;
+    }
+        
+
+
+    private CalendariVista(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException{
+    		
+		this.ano = ano;
+		this.m = mes;
+		this.nombre = pNombre;
+		System.out.println(nombre);
+		this.entrenador = pEntrenador;
+    	setTitle("Calendario entreno"); //titulo de la pagina
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
+		setBounds(120, 120, 518, 309);
+        window = new JPanel();
+        this.window.setBackground(this.color1); //definimos color de fondo
+        window.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(window); //colocamos el panel dentro de la ventana principal.
+		window.setLayout(null);
+		{
+			this.parteArriba = new JPanel();
+			this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
+			this.parteArriba.setBounds(1, 5, 500, 35);
+			Border borde = BorderFactory.createLineBorder(Color.black, 1);
+			this.parteArriba.setBorder(borde);
+			this.parteArriba.setBackground(azulCielo);
+			this.window.add(this.parteArriba); 
+			this.parteArriba.setLayout(null);
+			parteArriba.add(getUsuario());
+			parteArriba.add(getLogOut());
+			parteArriba.add(getPrevio());
+	        parteArriba.add(getAno());
+	        parteArriba.add(getMes());
+	        parteArriba.add(getSiguiente());
+		}
+		window.add(getMesTabla());
+        setLocationRelativeTo(null);
+        Gestor.getGestor().addObserver(this);
+		
+    		
+	    	
 
     }
 
@@ -267,7 +275,8 @@ public class CalendariVista extends JFrame implements Observer {
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
                 	calendario.dispose();
-					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d),nombre,entrenador);
+                	System.out.println(crearFormatoFecha(a, m, d)+nombre+entrenador);
+					dl = EntrenoDiarioVista.getMiEntreno(crearFormatoFecha(a, m, d),nombre,entrenador);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

@@ -14,8 +14,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,6 +32,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import exceptions.ExceptionModificable;
 import calendarModelo.ConsultasDBModelo;
@@ -43,8 +49,9 @@ public class EntrenoDiarioVista extends JFrame {
 		private JButton volverCalendar;
 		private JButton insertarEjercicios;
 		private Color azulCielo = new Color(31, 197, 203);
-		private Color color1 = new Color(231, 231, 231); //definir color de panel atras
-		private static EntrenoDiarioVista miEntrenoDiario;
+		private Color color1 = new Color(231, 231, 231); //definir color de panel atras	
+		private static EntrenoDiarioVista miEntrenoDiario;	
+		private static Map<String, EntrenoDiarioVista>  hashSingleton = new HashMap<>();
 		private JPanel entrenoDiario ;
 		private JPanel parteArriba;
 		private JPanel tabla;
@@ -53,7 +60,7 @@ public class EntrenoDiarioVista extends JFrame {
 		private String nombre;
 		private Boolean esEntrenador;
 		
-		EntrenoDiarioVista(String pFecha,String pNombre, Boolean pEsEntrenador) throws SQLException { //HAY QUE MIRAR ESTO
+		 private EntrenoDiarioVista(String pFecha,String pNombre, Boolean pEsEntrenador) throws SQLException { //HAY QUE MIRAR ESTO
 			fecha = pFecha;
 			nombre = pNombre;
 			this.esEntrenador = pEsEntrenador;
@@ -86,12 +93,15 @@ public class EntrenoDiarioVista extends JFrame {
 			setLocationRelativeTo(null);
 		}
 		
-		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {
-			if( miEntrenoDiario == null) {
-				miEntrenoDiario = new EntrenoDiarioVista(pFecha,pNombre,pEsEntrenador);
-			}
-			return miEntrenoDiario;
+		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {		
+			if(hashSingleton.get(pNombre + pFecha) == null){
+	        	miEntrenoDiario = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
+	        	hashSingleton.put(pNombre + pFecha, miEntrenoDiario);
+	        }
+	        miEntrenoDiario = hashSingleton.get(pNombre + pFecha);
+	        return miEntrenoDiario;
 		}
+		
 		
 		
 		//////////////creamos los labels y los TF //////////////
@@ -127,9 +137,8 @@ public class EntrenoDiarioVista extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						CalendariVista ed;
 						try {
-							ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre,esEntrenador);
+							CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre,esEntrenador);
 							ed.setVisible(true);
 							dispose();
 						} catch (NumberFormatException e1) {
