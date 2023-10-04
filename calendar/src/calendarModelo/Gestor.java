@@ -26,7 +26,7 @@ public class Gestor extends Observable {
     }
 
     public void pasaAlAnterior(String mes,int year) {
-        //System.out.println("\nmes");
+
         ano = year;
         Boolean encontrado = false;
         for(int i=0;i<meses.length && !encontrado ;i++ ){
@@ -46,14 +46,12 @@ public class Gestor extends Observable {
         setChanged();
         notifyObservers();
 
-        //funciona
 
 
     }
     
     public void pasaAlSiguiente(String mes, int year) {
-       // System.out.println(">" + m);
-        //System.out.println("\nmes");
+
         ano = year;
         Boolean encontrado = false;
         for(int i=0;i< meses.length && !encontrado;i++ ){
@@ -98,14 +96,6 @@ public class Gestor extends Observable {
     }
 
 
-
-    /*
-    public void abreEntrenamiento(String fecha){
-
-        Entrenamiento e = new Entrenamiento(fecha);
-
-    }
-    */
 
     public String getMes(){
         return m;

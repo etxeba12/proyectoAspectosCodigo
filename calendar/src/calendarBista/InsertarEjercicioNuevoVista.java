@@ -2,8 +2,8 @@ package calendarBista;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -20,35 +20,31 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import calendarModelo.ConsultasDBModelo;
 
-public class EntrenoInfoVista  extends JFrame{
-	
-	private JLabel nombreEjercicio;
+public class InsertarEjercicioNuevoVista extends JFrame {
+
+	private JPanel contentPane;
+
 	private Color colorBlanco = new Color(255,255,255); //definir color de atras
 	private Color color1 = new Color(231, 231, 231); //definir color de panel atras
 	private Color azulCielo = new Color(31, 197, 203);
-	private static EntrenoInfoVista miEntrenoInfo;
 	private JPanel entrenoInfo ;
 	private JPanel parteArriba;
-	private String nombreEjer;
-	private ConsultasDBModelo cd = new ConsultasDBModelo();
 	private JPanel tabla;
 	private JPanel linea;
 	private JButton botonGuardar;
-	private String series;
-	
-	
+	private JLabel titulo;
+		
+		
 	//preguntar xq nos pide que cambiemos la visibilidad
-	EntrenoInfoVista(String pEjer) throws SQLException {
-		nombreEjer = pEjer;
-		setTitle("Información entreno"); //titulo de la pagina
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-		setBounds(120, 120, 518, 309); // definimos tamaño del panel a mano
+	public InsertarEjercicioNuevoVista() throws SQLException {
+		setTitle("Inserta un ejercicio"); //titulo de la pagina
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaï¿½a
+		setBounds(120, 120, 518, 309); // definimos tamaï¿½o del panel a mano
 		entrenoInfo = new JPanel();
 		this.entrenoInfo.setBackground(this.color1); //definimos color de fondo
 		entrenoInfo.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,116 +58,132 @@ public class EntrenoInfoVista  extends JFrame{
 			this.parteArriba.setBorder(borde);
 			this.parteArriba.setBackground(azulCielo);
 			this.entrenoInfo.add(this.parteArriba); 
-			this.parteArriba.add(getNombreEjercicio());
+			this.parteArriba.add(getTitulo());
+			
 		}
 		this.entrenoInfo.add(getEntrenamientos());
 		 
 		setLocationRelativeTo(null);
 	}
 	
-	public static EntrenoInfoVista getMiEntreno(String ejer) throws SQLException {
-		if( miEntrenoInfo == null) {
-			miEntrenoInfo = new EntrenoInfoVista(ejer);
+	public JLabel getTitulo() { //si no se ha creado la etiqueta todavia, la creamos
+		if(titulo == null) {
+			titulo = new JLabel("Inserta un ejercicio");
+			titulo.setBounds(0, 0, 140, 120);
+			titulo.setForeground(Color.white);
+			titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));	
 		}
-		return miEntrenoInfo;
+		return titulo;
 	}
 	
-	
-	//////////////creamos los labels y los TF //////////////
-		
-	public JLabel getNombreEjercicio() { //si no se ha creado la etiqueta todavia, la creamos
-		if(nombreEjercicio == null) {
-			nombreEjercicio = new JLabel(nombreEjer);
-			nombreEjercicio.setBounds(0, 0, 140, 120);
-			nombreEjercicio.setForeground(Color.white);
-			nombreEjercicio.setFont(new Font("Tahoma", Font.PLAIN, 20));	
-		}
-		return nombreEjercicio;
-	}
 	
 	//////////////creamos los labels y los TF //////////////
 	
 	private JPanel getEntrenamientos() throws SQLException {
-		ResultSet respuesta = cd.conseguirInfoEntreno(nombreEjer);
-		respuesta.next();
-		series = respuesta.getString("series");
-		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  1 ,3));
+		this.tabla = new JPanel(new GridLayout(1 ,4));
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS)); //para que se ponga una linea debajo de la otra
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 		this.tabla.setBounds(1, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.tabla.setBorder(borde);
-		Integer i = 1;
+		
+		
+		JLabel nombreLbl = new JLabel("Nombre");
+		nombreLbl.setBounds(45, 0 ,100 , 25);
+		nombreLbl.setForeground(azulCielo);
 		JLabel kgTitulo = new JLabel("Kilos");
-		kgTitulo.setBounds(58, 0 ,100 , 25);
+		kgTitulo.setBounds(170, 0 ,100 , 25);
 		kgTitulo.setForeground(azulCielo);
 		JLabel repesTitulo = new JLabel("Repeticiones");
-		repesTitulo.setBounds(210, 0 ,100 , 25);
+		repesTitulo.setBounds(255, 0 ,100 , 25);
 		repesTitulo.setForeground(azulCielo);
 		JLabel RPETitulo = new JLabel("RPE");
-		RPETitulo.setBounds(393, 0 ,100 , 25);
+		RPETitulo.setBounds(405, 0 ,100 , 25);
 		RPETitulo.setForeground(azulCielo);
 		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
 		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 		this.linea.setBounds(0, 0, 100, 25);
 		this.linea.setLayout(null);
-		this.tabla.add(this.linea); // añadimos el Panel al principal panel
+		this.tabla.add(this.linea); // aï¿½adimos el Panel al principal panel
+		this.linea.add(nombreLbl);
 		this.linea.add(kgTitulo);
 		this.linea.add(repesTitulo);
 		this.linea.add(RPETitulo);
 		tabla.add(Box.createRigidArea(new Dimension(0, 5)));
 		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
 		Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
-		while(i <= Integer.parseInt(series)) {
-			String reps = respuesta.getString("repeticiones");
-			JLabel repes = new JLabel(reps);
-			repes.setBounds(240, 0 ,100 , 25);
+		
+		for (int i = 0; i < 5; i++) {
+			
+			
+			JTextField nombre = new JTextField();
+			nombre.setBounds(25, 0, 100, 25);
+			
 			JTextField kilos = new JTextField();
-			repes.setForeground(azulCielo);
-			kilos.setBounds(25, 0 , 100, 25);
+			kilos.setBounds(140, 0, 100, 25);
+			
+			JTextField repes = new JTextField();
+			repes.setBounds(255, 0, 100, 25);
+			
 			JTextField RPE = new JTextField();
-			RPE.setBounds(357, 0 , 100, 25);
-			this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
+			RPE.setBounds(370, 0, 100, 25);
+			
+		
+			
+			
+			this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
 			this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 			this.linea.setBounds(0, 0, 100, 25);
 			this.linea.setLayout(null);
-			this.tabla.add(this.linea); // añadimos el Panel al principal panel
+			this.tabla.add(this.linea); // AÃ±adimos el Panel al panel principal
+			this.linea.add(nombre);
 			this.linea.add(kilos);
 			this.linea.add(espacio);
 			this.linea.add(repes);
 			this.linea.add(espacio);
 			this.linea.add(RPE);
-			tabla.add(Box.createRigidArea(new Dimension(0, 5))); //crear espacio entre jpanels
-			linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height)); // que ocupe toda la ventana cada linea
-			this.tabla.add(linea);
-			i++;
+			tabla.add(Box.createRigidArea(new Dimension(0, 5)));
+			this.linea.setMaximumSize(new Dimension(Short.MAX_VALUE, this.linea.getPreferredSize().height));
+			
+		
 		}
+		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
+		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
+		this.linea.setBounds(0, 0, 100, 25);
+		this.linea.setLayout(null);
+		this.tabla.add(this.linea);
+
+		tabla.add(Box.createRigidArea(new Dimension(0, 5)));
+		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
+		this.linea.add(getBotonGuardar());
 		return tabla;
 	}
 	
-	/*
+	
 	private JButton getBotonGuardar() {
 		if(botonGuardar == null) {
 			botonGuardar = new JButton();
 			botonGuardar.setBackground(this.azulCielo);
 			botonGuardar.setForeground(colorBlanco);
+			botonGuardar.setBounds(200, 0, 100, 25);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
 			botonGuardar.setBorder(borde);
-			botonGuardar.setText(" ACTUALIZAR ");
+			botonGuardar.setText(" Guardar ");
 			botonGuardar.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					int i = 1;
-					while(i <= Integer.parseInt(series)) {
-						cd.actualizarInfo(nombreEjer, nombreEjer);
+					
 					}
-				}
+				
 			});
 		}
 		return botonGuardar;
 	}
-	*/
+	
 
 }
+
+
+

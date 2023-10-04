@@ -1,5 +1,6 @@
 package calendarBista;
 
+import calendarModelo.ConsultasDBModelo;
 import calendarModelo.Gestor;
 
 
@@ -14,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.border.Border;
@@ -30,20 +33,27 @@ public class CalendariVista extends JFrame implements Observer {
         private String m ;
         private Color azulCielo = new Color(31, 197, 203);
         private Color color1 = new Color(231, 231, 231);
+        private Color blanco = new Color(255,255,255);
         private JPanel window;
         Controlador contr = new Controlador();
         private JButton previo ;
         private JButton siguiente ;
+        private JButton logOut;
         private JLabel mes;
         private JLabel labelano;
+        private JLabel nombreUsu;
         private JButton b;
         private JPanel parteArriba;
         private JPanel CalendarioDias;
+        private String nombre;
+        private Boolean entrenador;
+        private ConsultasDBModelo db = new ConsultasDBModelo();
+        private Map<String,CalendariVista> mapaDeCalendarios = new HashMap<>();
 
 
-        public static CalendariVista getCalendario(int ano,String mes){
+        public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador) throws SQLException{
             if(calendario==null){
-            	calendario = new CalendariVista(ano,mes);
+            	calendario = new CalendariVista(ano,mes,pNombre,pEntrenador);
             }else {
             	calendario.setAno(ano);
             	calendario.setMes(mes);
@@ -53,28 +63,34 @@ public class CalendariVista extends JFrame implements Observer {
         }
         
 
-    private CalendariVista(int ano, String mes){
+    CalendariVista(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException{
 	    	this.ano = ano;
 			this.m = mes;
+			this.nombre = pNombre;
+			this.entrenador = pEntrenador;
 	    	setTitle("Calendario entreno"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
-			setBounds(120, 120, 500, 300);
+			setBounds(120, 120, 518, 309);
             window = new JPanel();
             this.window.setBackground(this.color1); //definimos color de fondo
             window.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(window); //colocamos el panel dentro de la ventana principal.
+			window.setLayout(null);
 			{
 				this.parteArriba = new JPanel();
 				this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-				this.parteArriba.setBounds(0, 5, 500, 300);
+				this.parteArriba.setBounds(1, 5, 500, 35);
 				Border borde = BorderFactory.createLineBorder(Color.black, 1);
 				this.parteArriba.setBorder(borde);
 				this.parteArriba.setBackground(azulCielo);
 				this.window.add(this.parteArriba); 
-				 parteArriba.add(getPrevio());
-		         parteArriba.add(getAno());
-		         parteArriba.add(getMes());
-		         parteArriba.add(getSiguiente());
+				this.parteArriba.setLayout(null);
+				parteArriba.add(getUsuario());
+				parteArriba.add(getLogOut());
+				parteArriba.add(getPrevio());
+		        parteArriba.add(getAno());
+		        parteArriba.add(getMes());
+		        parteArriba.add(getSiguiente());
 			}
 			window.add(getMesTabla());
             setLocationRelativeTo(null);
@@ -83,7 +99,30 @@ public class CalendariVista extends JFrame implements Observer {
     }
 
 
-
+    private JButton getLogOut() {
+		if(logOut == null) {
+			logOut = new JButton();
+			logOut.setBackground(this.azulCielo);
+			logOut.setBorder(null);
+			logOut.setBounds(445, 5, 50, 25);
+			ImageIcon Original = new  ImageIcon(CalendariVista.class.getResource("/imagenes/logOut.png"));
+			Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+			logOut.setIcon(new ImageIcon(imagenRedimensionada));
+			logOut.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			logOut.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			logOut.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					LoginVista lv = LoginVista.getLogin();
+					lv.setVisible(true);
+					 
+				}
+			});
+		}
+		return logOut;
+	}
 
 
     private JButton getPrevio(){
@@ -91,6 +130,7 @@ public class CalendariVista extends JFrame implements Observer {
             previo = new JButton("");
             previo.setBackground(azulCielo);
             previo.setBorder(null);
+            previo.setBounds(115, 5, 50, 25);
             ImageIcon icono = new ImageIcon(CalendariVista.class.getResource("/imagenes/atras.png"));
             Image imagenRedimensionada = icono.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
             previo.setIcon(new ImageIcon(imagenRedimensionada));
@@ -108,6 +148,7 @@ public class CalendariVista extends JFrame implements Observer {
             siguiente = new JButton();
             siguiente.setBackground(azulCielo);
             siguiente.setBorder(null);
+            siguiente.setBounds(305, 5, 50, 25);
             ImageIcon icono = new ImageIcon(CalendariVista.class.getResource("/imagenes/flecha-correcta.png"));
             Image imagenRedimensionada = icono.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
             siguiente.setIcon(new ImageIcon(imagenRedimensionada));
@@ -117,11 +158,27 @@ public class CalendariVista extends JFrame implements Observer {
         }
         return siguiente;
     }
+    
+    private JLabel getUsuario(){
+        if (nombreUsu==null){
+        	nombreUsu = new JLabel(this.nombre);
+        	nombreUsu.setBounds(-10, 5, 100, 25);
+        	nombreUsu.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        	nombreUsu.setForeground(blanco);
+        	nombreUsu.setVerticalAlignment(SwingConstants.CENTER);
+        	nombreUsu.setHorizontalAlignment(SwingConstants.CENTER);
+
+        }
+        return nombreUsu;
+    }
 
     private JLabel getMes(){
         if(mes==null){
             mes = new JLabel();
             mes.setText(m);
+            mes.setBounds(208, 5, 105, 25);
+            mes.setForeground(blanco);
+            mes.setFont(new Font("Tahoma", Font.PLAIN, 17));
             mes.setVerticalAlignment(SwingConstants.CENTER);
             mes.setHorizontalAlignment(SwingConstants.CENTER);
         }
@@ -131,6 +188,9 @@ public class CalendariVista extends JFrame implements Observer {
     private JLabel getAno(){
         if (labelano==null){
         	labelano = new JLabel(Integer.toString(ano));
+        	labelano.setBounds(138, 5, 100, 25);
+        	labelano.setForeground(blanco);
+        	labelano.setFont(new Font("Tahoma", Font.PLAIN, 17));
         	labelano.setVerticalAlignment(SwingConstants.CENTER);
         	labelano.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -145,13 +205,11 @@ public class CalendariVista extends JFrame implements Observer {
     	this.m = mes;
     }
     
-    // tablero de meses y actualizacion del tablero
-    
-    public JPanel getMesTabla() {
+    public JPanel getMesTabla() throws SQLException {
 
-    	CalendarioDias = new JPanel(new GridLayout(4 ,7));
+    	CalendarioDias = new JPanel(new GridLayout(5 ,7));
 		this.CalendarioDias.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-		this.CalendarioDias.setBounds(0, 45, 500, 220);
+		this.CalendarioDias.setBounds(1, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.CalendarioDias.setBorder(borde);
 		
@@ -159,11 +217,27 @@ public class CalendariVista extends JFrame implements Observer {
 		calen.set(Calendar.YEAR, this.ano);
 		calen.set(Calendar.MONTH, g.numeroDeMes(m) );
 		int maxDias = calen.getActualMaximum(Calendar.DAY_OF_MONTH);
+		ImageIcon icono = new ImageIcon(CalendariVista.class.getResource("/imagenes/pesa.png"));
         for (int i = 1; i <= maxDias; i++) {
-            b = new JButton(Integer.toString(i));
-            b.setContentAreaFilled(false);
-            b.addActionListener(contr);
-            CalendarioDias.add(b);
+        	 if(db.hayEntreno(crearFormatoFecha(String.valueOf(ano), m, String.valueOf(i) ), nombre)) {
+        		 b = new JButton(icono);
+        		 
+        		 Image imagenRedimensionada = icono.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                 b.setIcon(new ImageIcon(imagenRedimensionada));
+                 b.setText(Integer.toString(i));
+
+             }
+        	 else {
+        		 b = new JButton(Integer.toString(i));
+        		 
+        	 }
+        	 b.setVerticalTextPosition(SwingConstants.TOP);
+        	 b.setHorizontalTextPosition(SwingConstants.CENTER);
+        	 b.setHorizontalAlignment(SwingConstants.CENTER);
+        	 b.setVerticalAlignment(SwingConstants.CENTER);
+             b.setContentAreaFilled(false);
+             b.addActionListener(contr);
+             CalendarioDias.add(b);
 
         }   
     	
@@ -171,7 +245,6 @@ public class CalendariVista extends JFrame implements Observer {
     	
     }
     
-    // tablero de meses y actualizacion del tablero
 
     public class Controlador implements ActionListener{
         @Override
@@ -181,29 +254,25 @@ public class CalendariVista extends JFrame implements Observer {
                 String m = mes.getText();
                 g.pasaAlAnterior(m,ano);
 
-                //System.out.println("PREVIO");
             }else if(e.getSource() == siguiente){
                 String m = mes.getText();
                 String a = labelano.getText();
 
-               // String fecha = a+"-"+m+"-"+d;
                 g.pasaAlSiguiente(m,ano);
-                //g.calcularDiaSiguiente(f);
 
             }else{
-                //window.setVisible(false);
+ 
                 String a = labelano.getText();
                 String m = mes.getText();
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
-                	setVisible(false);
-					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d));
+                	calendario.dispose();
+					EntrenoDiarioVista dl = new EntrenoDiarioVista(crearFormatoFecha(a, m, d),nombre,entrenador);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                //g.abreEntrenamiento("");
 
             }
 
@@ -229,16 +298,19 @@ public class CalendariVista extends JFrame implements Observer {
         m = g.getMes();
         ano = g.getAno();
         
-        
         if (calendario != null) {
+            g.deleteObserver(calendario); // Desregistra la instancia anterior
             calendario.dispose();
         }
-        // Crear una nueva instancia de CalendariVista 
-        setVisible(false);
-        
-        calendario = new CalendariVista(ano, m);
-        calendario.setVisible(true);
-        
 
+        try {
+			calendario = new CalendariVista(ano, m,this.nombre,this.entrenador);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        calendario.setVisible(true);
+        g.addObserver(calendario); // Registra la nueva instancia
+        
     }
 }

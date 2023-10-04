@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
@@ -97,8 +98,8 @@ public class ElegirClienteVista extends JFrame {
 	public JLabel getBienvenida() { //si no se ha creado la etiqueta todavia, la creamos
 		if(bienvenidaLbl == null) {
 			bienvenidaLbl = new JLabel("Selecciona un cliente");
-			bienvenidaLbl.setBounds(175, -40, 220, 120);
-			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			bienvenidaLbl.setBounds(160, -40, 220, 120);
+			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			bienvenidaLbl.setForeground(colorBlanco);
 			
 		}
@@ -120,7 +121,7 @@ public class ElegirClienteVista extends JFrame {
 			JButton boton  = new JButton();
 			boton.setText(cliente);
 			boton.setHorizontalAlignment(SwingConstants.LEFT);
-			boton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			boton.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			boton.setForeground(this.azulCielo);
 	        boton.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado  
 	        boton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Espaciado interno
@@ -132,6 +133,16 @@ public class ElegirClienteVista extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 	                JButton botonClicado = (JButton) e.getSource();
 					String nombreCliente = botonClicado.getText();
+					setVisible(false);
+					CalendariVista cv;
+					try {
+						cv = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),nombreCliente,true);
+						cv.setVisible(true);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 
 	            }
 	        });
