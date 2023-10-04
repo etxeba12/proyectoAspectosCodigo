@@ -21,6 +21,15 @@ public class ConsultasDBModelo extends BD{
 			return false;
 		}
 	}
+	public boolean comprobarEntrenador(String pnombre, String pContrasena) throws SQLException {
+		ResultSet respuesta = obtenerDatos("SELECT * FROM `entrenadores` WHERE nombre = '"+pnombre+"' AND contrasena = '"+pContrasena+"' ;");
+		if(respuesta.next()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	public boolean loginValido(String usuario, String Contrasena) throws SQLException {
 
@@ -43,6 +52,12 @@ public class ConsultasDBModelo extends BD{
 		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones` FROM `calendario` WHERE nombreEjercicio = '"+pNombre+"'; ");
 		return respuesta;
 	}
+
+	public ResultSet conseguirClientes(String pNombre) throws SQLException{
+		ResultSet respuesta = obtenerDatos("SELECT `nombre` FROM `clientes` WHERE entrenador_nombre = '"+pNombre+"'; ");
+		return respuesta;
+	}
+
 	
 	
 	public boolean hayEntreno(String fecha,String pNombre) throws SQLException {

@@ -57,6 +57,7 @@ public class LoginVista extends JFrame {
 	private JButton botonRegistro;
 	private JButton botonLogin;
 	private JPanel parteArriba;
+	private CalendariVista cl ;
 	
 	private ConsultasDBModelo r = new ConsultasDBModelo();
 	
@@ -219,11 +220,17 @@ public class LoginVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
 							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
-								CalendariVista cl = new CalendariVista(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText());
+								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								cl.setVisible(true);
 								usuarioTF.setText("");
 								contrasenaTF.setText("");
-							}else {
+							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
+								setVisible(false);
+								ElegirClienteVista ec = new ElegirClienteVista();
+								ec.setVisible(true);
+								
+							}
+							else {
 								throw new ExceptionModificable(login, "!El usuario y/o contrasena incorrectos!");
 							}
 						}else {
