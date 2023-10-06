@@ -65,7 +65,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		
 		
 	//preguntar xq nos pide que cambiemos la visibilidad
-	public InsertarEjercicioNuevoVista() throws SQLException {
+	public InsertarEjercicioNuevoVista(String nombre) throws SQLException {
 		setTitle("Inserta un ejercicio"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 618, 309); // definimos tama�o del panel a mano
@@ -288,7 +288,11 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
+						
+						}
+							
+							
+					
 
 				
 						

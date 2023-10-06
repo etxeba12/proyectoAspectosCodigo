@@ -105,6 +105,10 @@ public class CalendariVista extends JFrame implements Observer {
 	    	
 
     }
+    
+    public void setEsEntrenador(boolean pEntrenador) {
+    	this.entrenador = pEntrenador; 
+    }
 
 
     private JButton getLogOut() {

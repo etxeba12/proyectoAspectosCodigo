@@ -93,10 +93,10 @@ public class EntrenoDiarioVista extends JFrame {
 			setLocationRelativeTo(null);
 		}
 		
+
 		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {	
 			if(hashSingleton.get(pNombre + pFecha) == null){
 	        	miEntrenoDiario = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
-	        	
 	        	hashSingleton.put(pNombre + pFecha, miEntrenoDiario);
 	        }
 			update(pFecha, pNombre, pEsEntrenador);
@@ -312,7 +312,7 @@ public class EntrenoDiarioVista extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						try {
-							InsertarEjercicioNuevoVista ie = new InsertarEjercicioNuevoVista();
+							InsertarEjercicioNuevoVista ie = new InsertarEjercicioNuevoVista(nombre);
 							ie.setFecha(fecha);
 							ie.setNombre(nombre);
 							ie.setVisible(true);

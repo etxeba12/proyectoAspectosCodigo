@@ -227,6 +227,7 @@ public class LoginVista extends JFrame {
 							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
+								cl.setEsEntrenador(false);
 								cl.setVisible(true);
 								contrasenaTF.setText("");
 								usuarioTF.setText("");
@@ -254,7 +255,7 @@ public class LoginVista extends JFrame {
 						e1.printStackTrace();
 					}
 				}
-
+				/*
 				private String hash(String pw) {
 					// TODO Auto-generated method stub
 					try {
@@ -272,7 +273,7 @@ public class LoginVista extends JFrame {
 					}
 					
 					return null;
-				}
+				}*/
 			});
 		}
 		return botonLogin;
