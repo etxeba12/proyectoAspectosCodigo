@@ -18,8 +18,8 @@ public class BD {
     	
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/gymcalendar","root","");
-            //conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
+            //conexion = DriverManager.getConnection("jdbc:mysql://localhost/gymcalendar","root","");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
 
             
         } catch(SQLException e) {
@@ -76,6 +76,18 @@ public class BD {
     		return validar;
 			// TODO: handle exception
 		}
+    	
+    }
+    public void desconexion() throws SQLException {
+    	if(this.conexion != null) {
+    		this.conexion.close();
+    	}
+    	if(this.consulta != null) {
+    		this.consulta.close();
+    	}
+    	if(this.rs != null) {
+    		this.rs.close();
+    	}
     	
     }
     

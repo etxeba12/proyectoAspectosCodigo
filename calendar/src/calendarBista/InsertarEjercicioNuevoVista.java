@@ -56,6 +56,8 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	private int rp;
 	private JPanel linea1;
 
+	ConsultasDBModelo cons = new ConsultasDBModelo();
+
 	
 	
 	
@@ -198,7 +200,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	}
 	
 	
-	private JButton getBotonGuardar() {
+	private JButton getBotonGuardar() throws SQLException {
 		if(botonGuardar == null) {
 			botonGuardar = new JButton();
 			botonGuardar.setBackground(this.azulCielo);
@@ -211,7 +213,6 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 				
 				@Override
 			    public void actionPerformed(ActionEvent e) {
-					ConsultasDBModelo cons = new ConsultasDBModelo();
 					boolean primera = true;
 					int ind = 0;
 					
@@ -278,8 +279,18 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 							if(nombre.getText().length()!=0) {
 							int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
 							}
-					
+						
+						try {
+							dispose();
+							EntrenoDiarioVista entrenoVista = EntrenoDiarioVista.getMiEntreno(fecha, user, true);
+							entrenoVista.setVisible(true);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
+
+				
 						
 					
 					
@@ -287,6 +298,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		
 			});
 		}
+		cons.desconexion();
 		return botonGuardar;
 	}
 	

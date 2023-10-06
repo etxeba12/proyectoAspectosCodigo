@@ -60,6 +60,7 @@ public class CalendariVista extends JFrame implements Observer {
         	calendario = new CalendariVista(ano, mes, pNombre, pEntrenador);
         	hashSingleton.put(pNombre, calendario);
         }
+        update(ano, mes, pNombre, pEntrenador);
         calendario = hashSingleton.get(pNombre);
         return calendario;
     }
@@ -71,7 +72,6 @@ public class CalendariVista extends JFrame implements Observer {
 		this.ano = ano;
 		this.m = mes;
 		this.nombre = pNombre;
-		System.out.println(nombre);
 		this.entrenador = pEntrenador;
     	setTitle("Calendario entreno"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
@@ -101,7 +101,7 @@ public class CalendariVista extends JFrame implements Observer {
         setLocationRelativeTo(null);
         Gestor.getGestor().addObserver(this);
 		
-    		
+    	db.desconexion();	
 	    	
 
     }
@@ -247,8 +247,8 @@ public class CalendariVista extends JFrame implements Observer {
              b.addActionListener(contr);
              CalendarioDias.add(b);
 
-        }   
-    	
+        }  
+
     	return CalendarioDias;
     	
     }
@@ -275,7 +275,6 @@ public class CalendariVista extends JFrame implements Observer {
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
                 	calendario.dispose();
-                	System.out.println(crearFormatoFecha(a, m, d)+nombre+entrenador);
 					dl = EntrenoDiarioVista.getMiEntreno(crearFormatoFecha(a, m, d),nombre,entrenador);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
@@ -322,4 +321,9 @@ public class CalendariVista extends JFrame implements Observer {
         g.addObserver(calendario); // Registra la nueva instancia
         
     }
+    private static void update(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException {
+    	System.out.println("ano: " + ano + " mes: " + mes + " nombre: " + pNombre );
+		CalendariVista calendario = new CalendariVista( ano,  mes, pNombre,  pEntrenador);
+    	hashSingleton.put(pNombre, calendario);
+	}
 }

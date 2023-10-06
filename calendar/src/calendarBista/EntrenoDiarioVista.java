@@ -93,12 +93,15 @@ public class EntrenoDiarioVista extends JFrame {
 			setLocationRelativeTo(null);
 		}
 		
-		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {		
+		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {	
 			if(hashSingleton.get(pNombre + pFecha) == null){
 	        	miEntrenoDiario = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
+	        	
 	        	hashSingleton.put(pNombre + pFecha, miEntrenoDiario);
 	        }
+			update(pFecha, pNombre, pEsEntrenador);
 	        miEntrenoDiario = hashSingleton.get(pNombre + pFecha);
+	        
 	        return miEntrenoDiario;
 		}
 		
@@ -138,7 +141,7 @@ public class EntrenoDiarioVista extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
-							CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),fecha.substring(5,7),nombre,esEntrenador);
+							CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),conseguirMes(Integer.parseInt(fecha.substring(5,7))),nombre,esEntrenador);
 							ed.setVisible(true);
 							dispose();
 						} catch (NumberFormatException e1) {
@@ -222,6 +225,11 @@ public class EntrenoDiarioVista extends JFrame {
 			}
 			return flechaDelante;
 		}
+		private String conseguirMes(int pMes) {
+
+			String[] meses = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+			return meses[pMes-1];
+		}
 		
 		private String crearFormatoFecha(Date pFecha) {
 			String date = pFecha.toString();
@@ -229,7 +237,6 @@ public class EntrenoDiarioVista extends JFrame {
 			String[] meses = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 			int mes = 0;
 			boolean encontrado = false;
-			System.out.println(palabra[1]);
 			while(!encontrado) {
 				if(palabra[1].equals(meses[mes])) {
 					encontrado = true;
@@ -240,7 +247,6 @@ public class EntrenoDiarioVista extends JFrame {
 			}
 			mes = mes + 1;
 			String resultado = palabra[5]+"-0"+mes+"-"+palabra[2];
-			System.out.println(resultado);
 			return resultado;
 			
 		}
@@ -286,6 +292,7 @@ public class EntrenoDiarioVista extends JFrame {
 				this.tabla.add(boton);
 				i++;
 			}
+			cd.desconexion();
 			return tabla;
 		}
 		private JButton getInsertarEntrenamientos() {
@@ -320,7 +327,7 @@ public class EntrenoDiarioVista extends JFrame {
 			}
 			return insertarEjercicios;
 		}
-		
+	
 		private String calcularDiaSiguiente(String fechaStr) throws java.text.ParseException {
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        Date fecha = dateFormat.parse(fechaStr);
@@ -342,5 +349,10 @@ public class EntrenoDiarioVista extends JFrame {
 	        
 	        return diaSiguienteStr;
 	    }
+		
+		private static void update(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {
+			EntrenoDiarioVista entrenoVista = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
+        	hashSingleton.put(pNombre + pFecha, entrenoVista);
+		}
 		
 }

@@ -249,14 +249,15 @@ public class RegistroVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0 && contrasena_2_TF.getText().length() != 0) {
 							if(!r.comprobarUsuario(usuarioTF.getText())){
 								if (contrasenaTF.getText().equals(contrasena_2_TF.getText())){
-									String auxString = this.hash(contrasenaTF.getText());
-									int a = r.Guardar((String) usuarioTF.getText(),auxString);
+									//String auxString = this.hash(contrasenaTF.getText());
+									int a = r.Guardar((String) usuarioTF.getText(),contrasenaTF.getText());
 									setVisible(false);	
 									contrasena_2_TF.setText("");
 									contrasenaTF.setText("");
 									usuarioTF.setText("");
 									LoginVista lg = LoginVista.getLogin();
 									lg.setVisible(true);
+									r.desconexion();
 								}else {
 									throw new ExceptionModificable(registro, "Las contrasenas no coinciden");
 								}
@@ -273,8 +274,15 @@ public class RegistroVista extends JFrame {
 						e1.printStackTrace();
 					}
 				}
+				
 
-				private String hash(String pw) {
+				
+			});
+		}
+		
+		return botonRegistro;
+	}
+	private String hash(String pw) {
 					// TODO Auto-generated method stub
 					try {
 						MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -292,10 +300,6 @@ public class RegistroVista extends JFrame {
 					
 					return null;
 				}
-			});
-		}
-		return botonRegistro;
-	}
 	
 	private JButton getBotonLogearse() {
 		if(botonLogin == null) {

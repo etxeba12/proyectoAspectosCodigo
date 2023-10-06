@@ -38,7 +38,6 @@ public class ConsultasDBModelo extends BD{
 	public boolean loginValido(String usuario, String Contrasena) throws SQLException {
 
 		ResultSet respuesta = obtenerDatos("SELECT * FROM `clientes` WHERE nombre = '"+usuario+"' AND contrasena = '"+Contrasena+"';");
-
 		if(respuesta.next()) {
 			return true;
 		}
@@ -74,5 +73,6 @@ public class ConsultasDBModelo extends BD{
 			return false;
 		}
 	}
+	
 	
 }

@@ -223,18 +223,21 @@ public class LoginVista extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
-							String aux = this.hash(contrasenaTF.getText());
-							if(r.loginValido(usuarioTF.getText(),aux)){
+							//String aux = this.hash(contrasenaTF.getText());
+							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								cl.setVisible(true);
-								usuarioTF.setText("");
 								contrasenaTF.setText("");
-							}else if(r.comprobarEntrenador(usuarioTF.getText(),aux)){
+								usuarioTF.setText("");
+								r.desconexion();
+							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
 								ElegirClienteVista ec = new ElegirClienteVista();
 								ec.setVisible(true);
-								
+								contrasenaTF.setText("");
+								usuarioTF.setText("");
+								r.desconexion();
 							}
 							else {
 								throw new ExceptionModificable(login, "!El usuario y/o contrasena incorrectos!");

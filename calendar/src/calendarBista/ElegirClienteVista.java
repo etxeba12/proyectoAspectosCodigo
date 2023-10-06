@@ -115,6 +115,7 @@ public class ElegirClienteVista extends JFrame {
 		this.tabla.setBorder(borde);
 		ResultSet clientes = db.conseguirClientes("Iker");
 		
+		
 		while(clientes.next()) {
 			String nombre = clientes.getString("nombre");
 			String cliente = clientes.getString("nombre");
@@ -149,10 +150,10 @@ public class ElegirClienteVista extends JFrame {
 	        
 	        tabla.add(Box.createRigidArea(new Dimension(0, 5)));
 			boton.setMaximumSize(new Dimension(Short.MAX_VALUE, boton.getPreferredSize().height));
-			
 			this.tabla.add(boton);
 			
 		}
+		db.desconexion();
 		return tabla;
 		
 	}

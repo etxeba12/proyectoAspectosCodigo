@@ -46,9 +46,9 @@ public class EntrenoInfoVista  extends JFrame{
 	//preguntar xq nos pide que cambiemos la visibilidad
 	EntrenoInfoVista(String pEjer) throws SQLException {
 		nombreEjer = pEjer;
-		setTitle("Información entreno"); //titulo de la pagina
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaña
-		setBounds(120, 120, 518, 309); // definimos tamaño del panel a mano
+		setTitle("Informaciï¿½n entreno"); //titulo de la pagina
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaï¿½a
+		setBounds(120, 120, 518, 309); // definimos tamaï¿½o del panel a mano
 		entrenoInfo = new JPanel();
 		this.entrenoInfo.setBackground(this.color1); //definimos color de fondo
 		entrenoInfo.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -115,7 +115,7 @@ public class EntrenoInfoVista  extends JFrame{
 		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 		this.linea.setBounds(0, 0, 100, 25);
 		this.linea.setLayout(null);
-		this.tabla.add(this.linea); // añadimos el Panel al principal panel
+		this.tabla.add(this.linea); // aï¿½adimos el Panel al principal panel
 		this.linea.add(kgTitulo);
 		this.linea.add(repesTitulo);
 		this.linea.add(RPETitulo);
@@ -135,7 +135,7 @@ public class EntrenoInfoVista  extends JFrame{
 			this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 			this.linea.setBounds(0, 0, 100, 25);
 			this.linea.setLayout(null);
-			this.tabla.add(this.linea); // añadimos el Panel al principal panel
+			this.tabla.add(this.linea); // aï¿½adimos el Panel al principal panel
 			this.linea.add(kilos);
 			this.linea.add(espacio);
 			this.linea.add(repes);
@@ -146,6 +146,7 @@ public class EntrenoInfoVista  extends JFrame{
 			this.tabla.add(linea);
 			i++;
 		}
+		cd.desconexion();
 		return tabla;
 	}
 	
