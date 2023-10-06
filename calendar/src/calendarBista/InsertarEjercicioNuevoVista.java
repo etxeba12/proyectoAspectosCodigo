@@ -63,7 +63,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		
 		
 	//preguntar xq nos pide que cambiemos la visibilidad
-	public InsertarEjercicioNuevoVista() throws SQLException {
+	public InsertarEjercicioNuevoVista(String nombre) throws SQLException {
 		setTitle("Inserta un ejercicio"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 618, 309); // definimos tama�o del panel a mano
@@ -275,9 +275,19 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 							
 						}
 					//System.out.println(user+"\n"+fecha+"\n"+nombre.getText()+"\n"+kilos.getText()+"\n"+series.getText()+"\n"+repes.getText()+"\n"+RPE.getText());
-							if(nombre.getText().length()!=0) {
-							int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
-							}
+						if(nombre.getText().length()!=0) {
+						int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
+						}
+						try {
+							EntrenoDiarioVista edv = EntrenoDiarioVista.getMiEntreno(fecha, user, true);
+							edv.setVisible(true);
+							dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							
+							
 					
 					}
 						

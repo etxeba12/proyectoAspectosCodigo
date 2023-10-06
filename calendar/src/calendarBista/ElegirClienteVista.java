@@ -45,26 +45,8 @@ public class ElegirClienteVista extends JFrame {
 	private JPanel parteArriba;
 	private JRadioButton rdbtnNewRadioButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ElegirClienteVista frame = new ElegirClienteVista();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 * @throws SQLException 
-	 */
+
 	public ElegirClienteVista() throws SQLException {
 		setTitle("Elegir Cliente"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
@@ -137,6 +119,7 @@ public class ElegirClienteVista extends JFrame {
 					CalendariVista cv;
 					try {
 						cv = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),nombreCliente,true);
+						cv.setEsEntrenador(true);
 						cv.setVisible(true);
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
