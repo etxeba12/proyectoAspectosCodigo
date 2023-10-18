@@ -234,7 +234,8 @@ public class LoginVista extends JFrame {
 								r.desconexion();
 							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
-								ElegirClienteVista ec = new ElegirClienteVista();
+								ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista();
+								//ElegirClienteVista ec = new ElegirClienteVista();
 								ec.setVisible(true);
 								contrasenaTF.setText("");
 								usuarioTF.setText("");

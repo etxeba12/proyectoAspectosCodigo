@@ -1,12 +1,15 @@
 package calendarBista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -16,6 +19,7 @@ import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,6 +59,8 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	private int rep;
 	private int rp;
 	private JPanel linea1;
+	private JButton home;
+	private String name;
 
 	ConsultasDBModelo cons = new ConsultasDBModelo();
 
@@ -75,14 +81,17 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		setContentPane(entrenoInfo); //colocamos el panel dentro de la ventana principal.
 		this.entrenoInfo.setLayout(null); //asi colocamos las cosas donde nosotros queremos
 		{
+			name = nombre;
 			this.parteArriba = new JPanel();
 			this.parteArriba.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-			this.parteArriba.setBounds(1, 5, 600, 35);
+			this.parteArriba.setBounds(1, 5, 700, 35);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.parteArriba.setBorder(borde);
+			this.parteArriba.setLayout(null);
 			this.parteArriba.setBackground(azulCielo);
 			this.entrenoInfo.add(this.parteArriba); 
 			this.parteArriba.add(getTitulo());
+			this.parteArriba.add(getHome());
 			
 		}
 		this.entrenoInfo.add(getEntrenamientos());
@@ -93,7 +102,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	public JLabel getTitulo() { //si no se ha creado la etiqueta todavia, la creamos
 		if(titulo == null) {
 			titulo = new JLabel("Inserta un ejercicio");
-			titulo.setBounds(0, 0, 600, 120);
+			titulo.setBounds(200, 5, 300, 25);
 			titulo.setForeground(Color.white);
 			titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));	
 		}
@@ -199,6 +208,39 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		return tabla;
 	}
 	
+	private JButton getHome() {
+		if(home == null) {
+			home = new JButton();
+			home.setBackground(this.azulCielo);
+			home.setBorder(null);
+			home.setBounds(550, 5, 50, 25);
+			ImageIcon Original = new  ImageIcon(EntrenoDiarioVista.class.getResource("/imagenes/home.png"));
+			Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+			home.setIcon(new ImageIcon(imagenRedimensionada));
+			home.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			home.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			
+			home.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					try {
+						EntrenoDiarioVista ed = EntrenoDiarioVista.getMiEntreno(fecha, name, true);
+						ed.setVisible(true);
+						dispose();
+						
+					}catch (Exception exce) {
+						// TODO: handle exception
+					}
+				}
+			});
+			
+		}
+		return home;
+		
+	}
+			
 	
 	private JButton getBotonGuardar() throws SQLException {
 		if(botonGuardar == null) {
