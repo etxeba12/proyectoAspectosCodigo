@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,16 +40,24 @@ public class ElegirClienteVista extends JFrame {
 	private JLabel bienvenidaLbl;
 	private JPanel panelRadioBotones;
 	private ConsultasDBModelo db = new ConsultasDBModelo();
+	private JButton logoutButton;
 
 	private JPanel elegirCliente;
 	private JPanel tabla;
 
 	private JPanel parteArriba;
 	private JRadioButton rdbtnNewRadioButton;
+	
+	private static ElegirClienteVista e;
 
-
-
-	public ElegirClienteVista() throws SQLException {
+	public static ElegirClienteVista getElegirClienteVista() throws SQLException {
+		if(e==null) {
+			e = new ElegirClienteVista();
+		}
+		return e;
+	}
+	
+	private  ElegirClienteVista() throws SQLException {
 		setTitle("Elegir Cliente"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
@@ -65,6 +75,7 @@ public class ElegirClienteVista extends JFrame {
 			this.parteArriba.setBackground(azulCielo);
 			this.parteArriba.setLayout(null);
 			this.parteArriba.add(getBienvenida());
+			this.parteArriba.add(getlogoutButton());
 			
 			
 			//// boton registrarse y registro ////
@@ -88,6 +99,34 @@ public class ElegirClienteVista extends JFrame {
 		return bienvenidaLbl;
 	}
 	
+	   private JButton getlogoutButton() {
+			if(logoutButton == null) {
+				logoutButton = new JButton();
+				logoutButton.setBackground(this.azulCielo);
+				logoutButton.setBorder(null);
+				logoutButton.setBounds(445, 5, 50, 25);
+				ImageIcon Original = new  ImageIcon(ElegirClienteVista.class.getResource("/imagenes/logOut.png"));
+				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+				logoutButton.setIcon(new ImageIcon(imagenRedimensionada));
+				logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				logoutButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				logoutButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+						LoginVista lv = LoginVista.getLogin();
+						lv.setVisible(true);
+						
+			
+						 
+					}
+				});
+				return logoutButton;
+			}
+			return logoutButton;
+	}
+			
 	private JPanel getClientes() throws SQLException {
 		this.tabla = new JPanel();
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS));

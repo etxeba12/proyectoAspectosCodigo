@@ -128,9 +128,20 @@ public class CalendariVista extends JFrame implements Observer {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					if(entrenador) {
+						try {
+							ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista();
+							ec.setVisible(true);
+							dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}else {
 					dispose();
 					LoginVista lv = LoginVista.getLogin();
 					lv.setVisible(true);
+					}
 					 
 				}
 			});
