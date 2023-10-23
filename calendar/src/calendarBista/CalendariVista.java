@@ -56,11 +56,14 @@ public class CalendariVista extends JFrame implements Observer {
 
 
     public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador) throws SQLException{
+
         if(hashSingleton.get(pNombre) == null){
         	calendario = new CalendariVista(ano, mes, pNombre, pEntrenador);
         	hashSingleton.put(pNombre, calendario);
+        }else {
+        	update(ano, mes, pNombre, pEntrenador);
         }
-        update(ano, mes, pNombre, pEntrenador);
+        
         calendario = hashSingleton.get(pNombre);
         return calendario;
     }
@@ -100,7 +103,6 @@ public class CalendariVista extends JFrame implements Observer {
 		window.add(getMesTabla());
         setLocationRelativeTo(null);
         Gestor.getGestor().addObserver(this);
-		
     	db.desconexion();	
 	    	
 
@@ -137,7 +139,7 @@ public class CalendariVista extends JFrame implements Observer {
 	}
 
 
-    private JButton getPrevio(){
+    private JButton getPrevio() throws SQLException{
         if(previo==null){
             previo = new JButton("");
             previo.setBackground(azulCielo);
@@ -149,14 +151,15 @@ public class CalendariVista extends JFrame implements Observer {
             previo.setCursor(new Cursor(Cursor.HAND_CURSOR));
             previo.setFont(new Font("Tahoma", Font.PLAIN, 16));
             previo.addActionListener(contr);
+            
 
         }
         return previo;
     }
     
-    private JButton getSiguiente(){
+    private JButton getSiguiente() throws SQLException{
         if(siguiente==null){
-            
+        	
             siguiente = new JButton();
             siguiente.setBackground(azulCielo);
             siguiente.setBorder(null);
@@ -167,6 +170,7 @@ public class CalendariVista extends JFrame implements Observer {
             siguiente.setCursor(new Cursor(Cursor.HAND_CURSOR));
             siguiente.setFont(new Font("Tahoma", Font.PLAIN, 16));
             siguiente.addActionListener(contr);
+            
         }
         return siguiente;
     }
@@ -252,6 +256,7 @@ public class CalendariVista extends JFrame implements Observer {
              CalendarioDias.add(b);
 
         }  
+        db.desconexion();
 
     	return CalendarioDias;
     	
@@ -261,7 +266,6 @@ public class CalendariVista extends JFrame implements Observer {
     public class Controlador implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-
             if(e.getSource() == previo){
                 String m = mes.getText();
                 g.pasaAlAnterior(m,ano);
@@ -317,6 +321,20 @@ public class CalendariVista extends JFrame implements Observer {
 
         try {
 			calendario = new CalendariVista(ano, m,this.nombre,this.entrenador);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+
+        	System.out.println("//////////////////////////////////////");
+        	db.cantidadConexiones();
+        	System.out.println("                                 ");
+			db.desconexion();
+			db.cantidadConexiones();
+        	System.out.println("//////////////////////////////////////");
+        	System.out.println("                                   ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

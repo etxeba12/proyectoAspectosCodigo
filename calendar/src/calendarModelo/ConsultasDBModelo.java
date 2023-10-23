@@ -74,5 +74,11 @@ public class ConsultasDBModelo extends BD{
 		}
 	}
 	
+	public int setMaximasConexiones() {
+		
+		return SetInformacion("SET GLOBAL max_connections = 1500;");
+
+		
+	}
 	
 }

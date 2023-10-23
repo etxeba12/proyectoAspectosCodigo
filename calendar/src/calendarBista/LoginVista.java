@@ -72,6 +72,7 @@ public class LoginVista extends JFrame {
 	//Eraikitzailea
 	
 	private LoginVista() {
+		r.setMaximasConexiones();
 		setTitle("login"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
@@ -225,13 +226,19 @@ public class LoginVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
 							//String aux = this.hash(contrasenaTF.getText());
 							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
+								System.out.println("Despues de la consulta");
+								r.cantidadConexiones();
+								r.desconexion();
+								System.out.println("Despues de la primera desconexion: ");
+								r.cantidadConexiones();
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
+								r.desconexion();
 								cl.setEsEntrenador(false);
 								cl.setVisible(true);
 								contrasenaTF.setText("");
 								usuarioTF.setText("");
-								r.desconexion();
+								
 							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
 								setVisible(false);
 								ElegirClienteVista ec = new ElegirClienteVista();
@@ -239,6 +246,7 @@ public class LoginVista extends JFrame {
 								contrasenaTF.setText("");
 								usuarioTF.setText("");
 								r.desconexion();
+								
 							}
 							else {
 								throw new ExceptionModificable(login, "!El usuario y/o contrasena incorrectos!");

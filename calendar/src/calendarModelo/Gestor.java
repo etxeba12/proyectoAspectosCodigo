@@ -13,7 +13,7 @@ import java.util.Observer;
 
 public class Gestor extends Observable {
     private String[] meses = {"JANUARY","FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST",
-            "SEPTEMBER", "OCTOBER", "NOVEMBER", "DICEMBER"};
+            "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
     private static Gestor g = new Gestor();
     private String m;
     private int ano;
@@ -79,7 +79,7 @@ public class Gestor extends Observable {
   
 
     public int numeroDeMes(String mes) {
-    	Locale locale = new Locale("en", "US"); // "en" para inglés, "US" para Estados Unidos
+    	Locale locale = new Locale("en", "US"); // "en" para ingles, "US" para Estados Unidos
         DateFormatSymbols symbols = new DateFormatSymbols(locale);
         String[] nombresMeses = symbols.getMonths();
         

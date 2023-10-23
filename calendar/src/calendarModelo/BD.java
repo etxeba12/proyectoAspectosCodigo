@@ -90,6 +90,23 @@ public class BD {
     	}
     	
     }
+    public void cantidadConexiones() throws SQLException {
+    	
+    	Conectar();
+    	int i= 0;
+    	Statement statement = conexion.createStatement();
+
+        String sql = "SELECT COUNT(*) AS connection_count FROM information_schema.processlist";
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if (resultSet.next()) {
+            int connectionCount = resultSet.getInt("connection_count");
+            System.out.println("Número de conexiones actuales: " + connectionCount);
+            //System.out.println("La conexion es: " + resultSet.getString(i));
+            i++;
+        }
+    }
+    
     
 	
 }

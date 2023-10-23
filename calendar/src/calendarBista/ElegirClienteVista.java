@@ -119,6 +119,7 @@ public class ElegirClienteVista extends JFrame {
 					setVisible(false);
 					CalendariVista cv;
 					try {
+						ConsultasDBModelo db = new ConsultasDBModelo();
 						cv = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),nombreCliente,true);
 						cv.setEsEntrenador(true);
 						cv.setVisible(true);
