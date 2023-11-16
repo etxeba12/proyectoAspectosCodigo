@@ -278,7 +278,7 @@ public class EntrenoDiarioVista extends JFrame {
 		                try {
 		                	JButton botonClicado = (JButton) e.getSource();
 			                String nombreEjer = botonClicado.getText();
-							EntrenoInfoVista ei = new EntrenoInfoVista(nombreEjer);
+							EntrenoInfoVista ei = new EntrenoInfoVista(nombreEjer, fecha, nombre);
 							ei.setVisible(true);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block

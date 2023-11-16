@@ -19,7 +19,8 @@ public class BD {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //conexion = DriverManager.getConnection("jdbc:mysql://localhost/gymcalendar","root","");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
+            //conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:33060/gymcalendar", "root", "");
 
             
         } catch(SQLException e) {
@@ -30,6 +31,10 @@ public class BD {
         }catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cargar driver");
         }
+    }
+    
+    public Connection getConnection() {
+        return conexion;
     }
     
     public int SetInformacion(String instruccion) {

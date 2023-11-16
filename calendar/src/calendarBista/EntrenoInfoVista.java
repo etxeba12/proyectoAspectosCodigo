@@ -39,14 +39,19 @@ public class EntrenoInfoVista  extends JFrame{
 	private ConsultasDBModelo cd = new ConsultasDBModelo();
 	private JPanel tabla;
 	private JPanel linea;
+	private JPanel parteDeAbajo;
 	private JButton botonGuardar;
 	private String series;
+	private String fecha;
+	private String usuario;
 	
 	
 	//preguntar xq nos pide que cambiemos la visibilidad
-	EntrenoInfoVista(String pEjer) throws SQLException {
+	EntrenoInfoVista(String pEjer, String pFecha, String pUsuario) throws SQLException {
 		nombreEjer = pEjer;
-		setTitle("Informaciï¿½n entreno"); //titulo de la pagina
+		fecha = pFecha;
+		usuario = pUsuario;
+		setTitle("Información entreno"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaï¿½a
 		setBounds(120, 120, 518, 309); // definimos tamaï¿½o del panel a mano
 		entrenoInfo = new JPanel();
@@ -63,15 +68,17 @@ public class EntrenoInfoVista  extends JFrame{
 			this.parteArriba.setBackground(azulCielo);
 			this.entrenoInfo.add(this.parteArriba); 
 			this.parteArriba.add(getNombreEjercicio());
+			
+			
 		}
 		this.entrenoInfo.add(getEntrenamientos());
 		 
 		setLocationRelativeTo(null);
 	}
 	
-	public static EntrenoInfoVista getMiEntreno(String ejer) throws SQLException {
+	public static EntrenoInfoVista getMiEntreno(String ejer, String fech, String usu) throws SQLException {
 		if( miEntrenoInfo == null) {
-			miEntrenoInfo = new EntrenoInfoVista(ejer);
+			miEntrenoInfo = new EntrenoInfoVista(ejer, fech, usu);
 		}
 		return miEntrenoInfo;
 	}
@@ -95,7 +102,7 @@ public class EntrenoInfoVista  extends JFrame{
 		ResultSet respuesta = cd.conseguirInfoEntreno(nombreEjer);
 		respuesta.next();
 		series = respuesta.getString("series");
-		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  1 ,3));
+		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  2,3));
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS)); //para que se ponga una linea debajo de la otra
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 		this.tabla.setBounds(1, 45, 500, 220);
@@ -103,34 +110,68 @@ public class EntrenoInfoVista  extends JFrame{
 		this.tabla.setBorder(borde);
 		Integer i = 1;
 		JLabel kgTitulo = new JLabel("Kilos");
-		kgTitulo.setBounds(58, 0 ,100 , 25);
+		kgTitulo.setBounds(40, 0 ,100 , 25);
 		kgTitulo.setForeground(azulCielo);
 		JLabel repesTitulo = new JLabel("Repeticiones");
-		repesTitulo.setBounds(210, 0 ,100 , 25);
+		repesTitulo.setBounds(110, 0 ,100 , 25);
 		repesTitulo.setForeground(azulCielo);
 		JLabel RPETitulo = new JLabel("RPE");
-		RPETitulo.setBounds(393, 0 ,100 , 25);
+		RPETitulo.setBounds(230, 0 ,100 , 25);
 		RPETitulo.setForeground(azulCielo);
+		JLabel kgObjetivo = new JLabel("KilosObjetivo");
+		kgObjetivo.setBounds(300, 0 ,100 , 25);
+		kgObjetivo.setForeground(azulCielo);
+		JLabel RPEObjetivo = new JLabel("RPEObjetivo");
+		RPEObjetivo.setBounds(400, 0 ,100 , 25);
+		RPEObjetivo.setForeground(azulCielo);
 		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
 		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 		this.linea.setBounds(0, 0, 100, 25);
 		this.linea.setLayout(null);
 		this.tabla.add(this.linea); // aï¿½adimos el Panel al principal panel
 		this.linea.add(kgTitulo);
+		this.linea.add(kgObjetivo);
 		this.linea.add(repesTitulo);
 		this.linea.add(RPETitulo);
+		this.linea.add(RPEObjetivo);	    
 		tabla.add(Box.createRigidArea(new Dimension(0, 5)));
 		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
 		Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
+		
+		
+		//ResultSet datosCliente = cd.comprobarKilosRPECliente(usuario, fecha, nombreEjer);
+		
+		
 		while(i <= Integer.parseInt(series)) {
 			String reps = respuesta.getString("repeticiones");
 			JLabel repes = new JLabel(reps);
-			repes.setBounds(240, 0 ,100 , 25);
-			JTextField kilos = new JTextField();
+			repes.setBounds(140, 0 ,100 , 25);
 			repes.setForeground(azulCielo);
-			kilos.setBounds(25, 0 , 100, 25);
+			System.out.println("Repeticiones: " + reps);
+			
+			JTextField kilos = new JTextField();
+			kilos.setBounds(30, 0 , 50, 25);
 			JTextField RPE = new JTextField();
-			RPE.setBounds(357, 0 , 100, 25);
+			RPE.setBounds(220, 0 , 50, 25);
+			
+			JTextField kilosCliente = new JTextField();
+		    kilos.setName("Kilos"); // Establece el nombre
+		    kilos.setBounds(30, 0, 50, 25);
+			String kgsObjetivo = respuesta.getString("kilos");
+			JLabel kiloObjetivo = new JLabel(kgsObjetivo);
+			kiloObjetivo.setBounds(330, 0 ,100 , 25);
+			kiloObjetivo.setForeground(azulCielo);
+			System.out.println("Kilos: " + kgsObjetivo);
+			
+			JTextField RPECliente = new JTextField();
+		    RPE.setName("RPE"); // Establece el nombre
+		    RPE.setBounds(220, 0, 50, 25);
+			String rpeObjetivo = respuesta.getString("RPE");
+			JLabel RPObjetivo = new JLabel(rpeObjetivo);
+			RPObjetivo.setBounds(430, 0 ,100 , 25);
+			RPObjetivo.setForeground(azulCielo);
+			System.out.println("RPE: " + rpeObjetivo);
+			
 			this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
 			this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 			this.linea.setBounds(0, 0, 100, 25);
@@ -141,38 +182,82 @@ public class EntrenoInfoVista  extends JFrame{
 			this.linea.add(repes);
 			this.linea.add(espacio);
 			this.linea.add(RPE);
+			this.linea.add(kiloObjetivo);
+			this.linea.add(RPObjetivo);
 			tabla.add(Box.createRigidArea(new Dimension(0, 5))); //crear espacio entre jpanels
 			linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height)); // que ocupe toda la ventana cada linea
 			this.tabla.add(linea);
 			i++;
 		}
-		cd.desconexion();
+		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
+		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
+		this.linea.setBounds(0, 0, 100, 25);
+		this.linea.setLayout(null);
+	    tabla.add(getBotonGuardar());
+		
 		return tabla;
 	}
 	
-	/*
 	private JButton getBotonGuardar() {
-		if(botonGuardar == null) {
-			botonGuardar = new JButton();
-			botonGuardar.setBackground(this.azulCielo);
-			botonGuardar.setForeground(colorBlanco);
-			Border borde = BorderFactory.createLineBorder(Color.black, 1); // creamos el borde del boton
-			botonGuardar.setBorder(borde);
-			botonGuardar.setText(" ACTUALIZAR ");
-			botonGuardar.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					int i = 1;
-					while(i <= Integer.parseInt(series)) {
-						cd.actualizarInfo(nombreEjer, nombreEjer);
-					}
-				}
-			});
-		}
-		return botonGuardar;
+	    if (botonGuardar == null) {
+	        botonGuardar = new JButton();
+	        botonGuardar.setBackground(azulCielo);
+	        botonGuardar.setForeground(colorBlanco);
+	        Border borde = BorderFactory.createLineBorder(Color.black, 1);
+	        botonGuardar.setBorder(borde);
+	        botonGuardar.setText(" GUARDAR ");
+	        botonGuardar.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                guardarDatosEnBaseDeDatos();
+	            }
+	        });
+	    }
+	    return botonGuardar;
 	}
-	*/
+
+	private void guardarDatosEnBaseDeDatos() {
+	    try {
+	        // Obtén el nombre del ejercicio
+	        String nombreEjercicio = getNombreEjercicio().getText();
+	        int kilos = 0;
+	        int rpe = 0;
+
+	        // Itera sobre los paneles para obtener los valores de kilos y RPE
+	        Component[] componentes = tabla.getComponents();
+	        for (Component componente : componentes) {
+	            if (componente instanceof JPanel) {
+	                JPanel panel = (JPanel) componente;
+	                Component[] lineComponents = panel.getComponents();
+	                for (Component lineComponent : lineComponents) {
+	                    if (lineComponent instanceof JTextField) {
+	                        JTextField textField = (JTextField) lineComponent;
+
+	                        // Obtén el valor del JTextField
+	                        String valor = textField.getText();
+
+	                        // Actualiza la base de datos con el valor
+	                        if(!valor.isEmpty()) {
+	                        	if (textField.getName().equals("Kilos")) {
+	                        		kilos = Integer.parseInt(valor);
+	                        	} else if (textField.getName().equals("RPE")) {
+	                        		rpe = Integer.parseInt(valor);
+	                        	}
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        cd.actualizarKilosRPECliente(usuario, fecha, nombreEjercicio, kilos, rpe);
+	        // Mensaje de éxito
+	        System.out.println("Datos guardados exitosamente.");
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+	}
+	
+	
 
 }
