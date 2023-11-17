@@ -104,7 +104,7 @@ public class ElegirClienteVista extends JFrame {
 				logoutButton = new JButton();
 				logoutButton.setBackground(this.azulCielo);
 				logoutButton.setBorder(null);
-				logoutButton.setBounds(445, 5, 50, 25);
+				logoutButton.setBounds(430, 5, 50, 25);
 				ImageIcon Original = new  ImageIcon(ElegirClienteVista.class.getResource("/imagenes/logOut.png"));
 				Image imagenRedimensionada = Original.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 				logoutButton.setIcon(new ImageIcon(imagenRedimensionada));

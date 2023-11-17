@@ -131,7 +131,7 @@ public class LoginVista extends JFrame {
 	
 	public JLabel getBienvenida() { //si no se ha creado la etiqueta todavia, la creamos
 		if(bienvenidaLbl == null) {
-			bienvenidaLbl = new JLabel("�LOGEATE!");
+			bienvenidaLbl = new JLabel("LOGEATE");
 			bienvenidaLbl.setBounds(195, -40, 105, 120);
 			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			bienvenidaLbl.setForeground(colorBlanco);
@@ -224,13 +224,9 @@ public class LoginVista extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
-							//String aux = this.hash(contrasenaTF.getText());
-							if(r.loginValido(usuarioTF.getText(),contrasenaTF.getText())){
-								System.out.println("Despues de la consulta");
-								r.cantidadConexiones();
+							String aux = this.hash(contrasenaTF.getText());
+							if(r.loginValido(usuarioTF.getText(),aux)){
 								r.desconexion();
-								System.out.println("Despues de la primera desconexion: ");
-								r.cantidadConexiones();
 								setVisible(false);
 								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
 								r.desconexion();
@@ -239,7 +235,7 @@ public class LoginVista extends JFrame {
 								contrasenaTF.setText("");
 								usuarioTF.setText("");
 								
-							}else if(r.comprobarEntrenador(usuarioTF.getText(),contrasenaTF.getText())){
+							}else if(r.comprobarEntrenador(usuarioTF.getText(),aux)){
 								setVisible(false);
 								ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista();
 								//ElegirClienteVista ec = new ElegirClienteVista();
@@ -264,7 +260,7 @@ public class LoginVista extends JFrame {
 						e1.printStackTrace();
 					}
 				}
-				/*
+				
 				private String hash(String pw) {
 					// TODO Auto-generated method stub
 					try {
@@ -282,7 +278,7 @@ public class LoginVista extends JFrame {
 					}
 					
 					return null;
-				}*/
+				}
 			});
 		}
 		return botonLogin;

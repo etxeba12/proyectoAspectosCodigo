@@ -338,14 +338,8 @@ public class CalendariVista extends JFrame implements Observer {
 			e.printStackTrace();
 		}
         try {
-
-        	System.out.println("//////////////////////////////////////");
-        	db.cantidadConexiones();
-        	System.out.println("                                 ");
 			db.desconexion();
-			db.cantidadConexiones();
-        	System.out.println("//////////////////////////////////////");
-        	System.out.println("                                   ");
+        
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

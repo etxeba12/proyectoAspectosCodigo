@@ -66,7 +66,7 @@ public class EntrenoDiarioVista extends JFrame {
 			this.esEntrenador = pEsEntrenador;
 			setTitle("Entreno diario"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
-			setBounds(120, 120, 518, 309); // definimos tama�o del panel a mano
+			setBounds(120, 120, 518, 535); // definimos tama�o del panel a mano
 			entrenoDiario = new JPanel();
 			this.entrenoDiario.setBackground(this.color1); //definimos color de fondo
 			entrenoDiario.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -255,7 +255,7 @@ public class EntrenoDiarioVista extends JFrame {
 			this.tabla = new JPanel();
 			tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS));
 			this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
-			this.tabla.setBounds(1, 45, 500, 220);
+			this.tabla.setBounds(1, 45, 500, 450);
 			Border borde = BorderFactory.createLineBorder(Color.black, 1);
 			this.tabla.setBorder(borde);
 			ResultSet respuesta = cd.conseguirEntreno(fecha,nombre);

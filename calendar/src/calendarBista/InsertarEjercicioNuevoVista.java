@@ -268,7 +268,6 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 						if(c instanceof JPanel) {
 							ind++;
 							JPanel line = (JPanel) c;
-							//System.out.println(line.getComponent(0));
 							Component a =  line.getComponent(0);
 							if(a instanceof JButton) {break;}
 							if(a instanceof JTextField) {
@@ -312,12 +311,9 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 							if(n.length()!=0 && n!=null) {
 							int w = cons.guardaEntreno(user, fecha, n, k, s, rep,rp);
 							}
-							//System.out.println(user+"\n"+fecha+"\n"+n+"\n"+k+"\n"+s+"\n"+rep+"\n"+rp);
-							//System.out.println(line.getComponent(0));
 						}
 							
 						}
-					//System.out.println(user+"\n"+fecha+"\n"+nombre.getText()+"\n"+kilos.getText()+"\n"+series.getText()+"\n"+repes.getText()+"\n"+RPE.getText());
 							if(nombre.getText().length()!=0) {
 							int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
 							}

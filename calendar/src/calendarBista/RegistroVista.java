@@ -123,7 +123,7 @@ public class RegistroVista extends JFrame {
 	
 	public JLabel getBienvenida() { //si no se ha creado la etiqueta todavia, la creamos
 		if(bienvenidaLbl == null) {
-			bienvenidaLbl = new JLabel("�REGISTRATE!");
+			bienvenidaLbl = new JLabel("REGISTRATE");
 			bienvenidaLbl.setBounds(185, -40, 105, 120);
 			bienvenidaLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			bienvenidaLbl.setForeground(colorBlanco);
@@ -249,8 +249,8 @@ public class RegistroVista extends JFrame {
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0 && contrasena_2_TF.getText().length() != 0) {
 							if(!r.comprobarUsuario(usuarioTF.getText())){
 								if (contrasenaTF.getText().equals(contrasena_2_TF.getText())){
-									//String auxString = this.hash(contrasenaTF.getText());
-									int a = r.Guardar((String) usuarioTF.getText(),contrasenaTF.getText());
+									String auxString = hash(contrasenaTF.getText());
+									int a = r.Guardar((String) usuarioTF.getText(),auxString);
 									setVisible(false);	
 									contrasena_2_TF.setText("");
 									contrasenaTF.setText("");
