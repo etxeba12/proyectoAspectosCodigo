@@ -21,7 +21,7 @@ public class ConsultasDBModelo extends BD{
 	}
 	
 	public ResultSet comprobarKilosRPECliente(String usuario, String fecha, String nombreEjercicio) throws SQLException {
-		ResultSet respuesta = obtenerDatos("SELECT KilosCliente, RPECliente FROM `clientes` WHERE cliente_nombre = '"+usuario+"' AND fecha = '"+fecha+"' AND nombreEjercicio = '"+nombreEjercicio+";");
+		ResultSet respuesta = obtenerDatos("SELECT KilosCliente, RPECliente FROM `calendario` WHERE cliente_nombre = '"+usuario+"' AND fecha = '"+fecha+"' AND nombreEjercicio = '"+nombreEjercicio+"';");
 		return respuesta;
 	}
 

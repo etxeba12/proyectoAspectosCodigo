@@ -76,7 +76,7 @@ public class CalendariVista extends JFrame implements Observer {
 		this.m = mes;
 		this.nombre = pNombre;
 		this.entrenador = pEntrenador;
-    	setTitle("Calendario entreno"); //titulo de la pagina
+    	setTitle("CALENDARIO ENTRENO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 518, 309);
         window = new JPanel();

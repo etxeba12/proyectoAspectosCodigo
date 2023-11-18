@@ -44,6 +44,9 @@ public class EntrenoInfoVista  extends JFrame{
 	private String series;
 	private String fecha;
 	private String usuario;
+	private int kilosRellenar;
+	private int rpeRellenar;
+		
 	
 	
 	//preguntar xq nos pide que cambiemos la visibilidad
@@ -51,7 +54,7 @@ public class EntrenoInfoVista  extends JFrame{
 		nombreEjer = pEjer;
 		fecha = pFecha;
 		usuario = pUsuario;
-		setTitle("Información entreno"); //titulo de la pagina
+		setTitle("INFORMACION ENTRENO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pestaï¿½a
 		setBounds(120, 120, 518, 309); // definimos tamaï¿½o del panel a mano
 		entrenoInfo = new JPanel();
@@ -72,6 +75,7 @@ public class EntrenoInfoVista  extends JFrame{
 			
 		}
 		this.entrenoInfo.add(getEntrenamientos());
+		ponerDatosGuardados();
 		 
 		setLocationRelativeTo(null);
 	}
@@ -139,15 +143,12 @@ public class EntrenoInfoVista  extends JFrame{
 		Component espacio = Box.createRigidArea(new Dimension(6, 0)); //creamos el espacio
 		
 		
-		//ResultSet datosCliente = cd.comprobarKilosRPECliente(usuario, fecha, nombreEjer);
-		
 		
 		while(i <= Integer.parseInt(series)) {
 			String reps = respuesta.getString("repeticiones");
 			JLabel repes = new JLabel(reps);
 			repes.setBounds(140, 0 ,100 , 25);
 			repes.setForeground(azulCielo);
-			System.out.println("Repeticiones: " + reps);
 			
 			JTextField kilos = new JTextField();
 			kilos.setBounds(30, 0 , 50, 25);
@@ -161,7 +162,6 @@ public class EntrenoInfoVista  extends JFrame{
 			JLabel kiloObjetivo = new JLabel(kgsObjetivo);
 			kiloObjetivo.setBounds(330, 0 ,100 , 25);
 			kiloObjetivo.setForeground(azulCielo);
-			System.out.println("Kilos: " + kgsObjetivo);
 			
 			JTextField RPECliente = new JTextField();
 		    RPE.setName("RPE"); // Establece el nombre
@@ -170,7 +170,6 @@ public class EntrenoInfoVista  extends JFrame{
 			JLabel RPObjetivo = new JLabel(rpeObjetivo);
 			RPObjetivo.setBounds(430, 0 ,100 , 25);
 			RPObjetivo.setForeground(azulCielo);
-			System.out.println("RPE: " + rpeObjetivo);
 			
 			this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); // crear un panel horizontal para poner componentes seguidos
 			this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
@@ -193,7 +192,21 @@ public class EntrenoInfoVista  extends JFrame{
 		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 		this.linea.setBounds(0, 0, 100, 25);
 		this.linea.setLayout(null);
-	    tabla.add(getBotonGuardar());
+		tabla.add(Box.createRigidArea(new Dimension(0, 5))); //crear espacio entre jpanels
+		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height)); // que ocupe toda la ventana cada linea
+		
+		this.linea = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
+		this.linea.setBackground(new Color(217, 217, 217)); 
+		this.linea.setBounds(0, 0, 100, 25);
+		this.linea.setLayout(null);
+		this.linea.add(getBotonGuardar());
+		this.tabla.add(this.linea);
+		
+		tabla.add(Box.createRigidArea(new Dimension(0, 5)));
+		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
+	    
+		
+		
 		
 		return tabla;
 	}
@@ -203,6 +216,7 @@ public class EntrenoInfoVista  extends JFrame{
 	        botonGuardar = new JButton();
 	        botonGuardar.setBackground(azulCielo);
 	        botonGuardar.setForeground(colorBlanco);
+	        botonGuardar.setBounds(195, 0, 100, 25);
 	        Border borde = BorderFactory.createLineBorder(Color.black, 1);
 	        botonGuardar.setBorder(borde);
 	        botonGuardar.setText(" GUARDAR ");
@@ -218,7 +232,7 @@ public class EntrenoInfoVista  extends JFrame{
 
 	private void guardarDatosEnBaseDeDatos() {
 	    try {
-	        // Obtén el nombre del ejercicio
+	        // Obtï¿½n el nombre del ejercicio
 	        String nombreEjercicio = getNombreEjercicio().getText();
 	        int kilos = 0;
 	        int rpe = 0;
@@ -233,7 +247,7 @@ public class EntrenoInfoVista  extends JFrame{
 	                    if (lineComponent instanceof JTextField) {
 	                        JTextField textField = (JTextField) lineComponent;
 
-	                        // Obtén el valor del JTextField
+	                        // Obtï¿½n el valor del JTextField
 	                        String valor = textField.getText();
 
 	                        // Actualiza la base de datos con el valor
@@ -249,13 +263,42 @@ public class EntrenoInfoVista  extends JFrame{
 	            }
 	        }
 	        cd.actualizarKilosRPECliente(usuario, fecha, nombreEjercicio, kilos, rpe);
-	        // Mensaje de éxito
-	        System.out.println("Datos guardados exitosamente.");
+	        dispose();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	    }
+	}
+	
+	private void ponerDatosGuardados() throws SQLException {
+		ResultSet datosCliente = cd.comprobarKilosRPECliente(usuario, fecha, nombreEjer);
+		while (datosCliente.next()) {
+			this.kilosRellenar = datosCliente.getInt("kilosCliente");
+			this.rpeRellenar = datosCliente.getInt("RPECliente");
+		}
+		
+		Component[] componentes = tabla.getComponents();
+        for (Component componente : componentes) {
+            if (componente instanceof JPanel) {
+                JPanel panel = (JPanel) componente;
+                Component[] lineComponents = panel.getComponents();
+                for (Component lineComponent : lineComponents) {
+                    if (lineComponent instanceof JTextField) {
+                        JTextField textField = (JTextField) lineComponent;
+                        if (textField.getName().equals("Kilos")) {
+                    		textField.setText(Integer.toString(kilosRellenar));
+                    	} else if (textField.getName().equals("RPE")) {
+                    		textField.setText(Integer.toString(rpeRellenar));
+                    	}
+
+                    }
+                }
+            }
+        }
+		
+		
+        
 	}
 	
 	

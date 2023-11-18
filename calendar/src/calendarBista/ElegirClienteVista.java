@@ -58,7 +58,7 @@ public class ElegirClienteVista extends JFrame {
 	}
 	
 	private  ElegirClienteVista() throws SQLException {
-		setTitle("Elegir Cliente"); //titulo de la pagina
+		setTitle("ELEGIR CLIENTE"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		elegirCliente = new JPanel();

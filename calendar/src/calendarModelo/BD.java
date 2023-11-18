@@ -18,8 +18,8 @@ public class BD {
     	
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/gymcalendar","root","");
-            //conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
+            //conexion = DriverManager.getConnection("jdbc:mysql://localhost/gymcalendar","root","");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3307/gymcalendar", "root", "");
             //conexion = DriverManager.getConnection("jdbc:mysql://localhost:33060/gymcalendar", "root", "");
 
             

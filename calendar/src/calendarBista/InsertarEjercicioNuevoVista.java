@@ -72,7 +72,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		
 	//preguntar xq nos pide que cambiemos la visibilidad
 	public InsertarEjercicioNuevoVista(String nombre) throws SQLException {
-		setTitle("Inserta un ejercicio"); //titulo de la pagina
+		setTitle("INSERTA UN EJERCICIO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 618, 309); // definimos tama�o del panel a mano
 		entrenoInfo = new JPanel();
@@ -95,7 +95,6 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 			
 		}
 		this.entrenoInfo.add(getEntrenamientos());
-		 
 		setLocationRelativeTo(null);
 	}
 	
@@ -113,7 +112,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	//////////////creamos los labels y los TF //////////////
 	
 	private JPanel getEntrenamientos() throws SQLException {
-		this.tabla = new JPanel(new GridLayout(1 ,4));
+		this.tabla = new JPanel(new GridLayout(1 ,5));
 		tabla.setLayout(new BoxLayout(tabla, BoxLayout.Y_AXIS)); //para que se ponga una linea debajo de la otra
 		this.tabla.setBackground(this.color1); // ponemos mismo color para que no se note el panel
 		this.tabla.setBounds(1, 45, 600, 220);
@@ -198,11 +197,12 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		this.linea.setBackground(new Color(217, 217, 217)); // Color de fondo personalizado ); // ponemos mismo color para que no se note el panel
 		this.linea.setBounds(0, 0, 600, 25);		
 		this.linea.setLayout(null);
+		this.linea.add(getBotonGuardar());
 		this.tabla.add(this.linea);
 		
 		tabla.add(Box.createRigidArea(new Dimension(0, 6)));
 		linea.setMaximumSize(new Dimension(Short.MAX_VALUE, linea.getPreferredSize().height));
-		this.linea.add(getBotonGuardar());
+		
 		
 		
 		return tabla;

@@ -64,7 +64,7 @@ public class EntrenoDiarioVista extends JFrame {
 			fecha = pFecha;
 			nombre = pNombre;
 			this.esEntrenador = pEsEntrenador;
-			setTitle("Entreno diario"); //titulo de la pagina
+			setTitle("ENTRENO CLIENTE"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 			setBounds(120, 120, 518, 535); // definimos tama�o del panel a mano
 			entrenoDiario = new JPanel();

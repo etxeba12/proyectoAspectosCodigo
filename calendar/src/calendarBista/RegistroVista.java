@@ -69,7 +69,7 @@ public class RegistroVista extends JFrame {
 	//Eraikitzailea
 	
 	private RegistroVista() {
-		setTitle("registro"); //titulo de la pagina
+		setTitle("REGISTRO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		registro = new JPanel();

@@ -73,7 +73,7 @@ public class LoginVista extends JFrame {
 	
 	private LoginVista() {
 		r.setMaximasConexiones();
-		setTitle("login"); //titulo de la pagina
+		setTitle("LOGIN"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		login = new JPanel();
