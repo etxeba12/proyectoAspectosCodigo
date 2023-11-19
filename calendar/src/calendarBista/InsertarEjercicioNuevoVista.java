@@ -264,7 +264,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 						if(primera) {
 							primera = false;
 							continue;
-						}else if(ind==4){
+						}else if(ind==5){
 							break;
 						}
 						if(c instanceof JPanel) {
@@ -320,14 +320,14 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 							}
 							
 							if(n.length()!=0 && n!=null) {
-							int w = cons.guardaEntreno(user, fecha, n, k, s, rep,rp);
+								int w = cons.guardaEntreno(user, fecha, n, k, s, rep,rp);
 							}
 						}
 							
 						}
-							if(nombre.getText().length()!=0) {
-							int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
-							}
+						//if(nombre.getText().length()!=0) {
+							//int w = cons.guardaEntreno(user, fecha, nombre.getText(), Integer.parseInt(kilos.getText()), Integer.parseInt(series.getText()), Integer.parseInt(repes.getText()), Integer.parseInt(RPE.getText()));
+						//}
 						
 						try {
 							dispose();
