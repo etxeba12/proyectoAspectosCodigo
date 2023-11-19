@@ -48,6 +48,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 	private JLabel titulo;
 	private String fecha;
 	private String user;
+	private String nombreEntrenador;
 	private JTextField nombre;
 	private JTextField kilos;
 	private JTextField series;
@@ -71,8 +72,9 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 		
 		
 	//preguntar xq nos pide que cambiemos la visibilidad
-	public InsertarEjercicioNuevoVista(String nombre) throws SQLException {
+	public InsertarEjercicioNuevoVista(String nombre,String pNombreEntrenador) throws SQLException {
 		setTitle("INSERTA UN EJERCICIO"); //titulo de la pagina
+		nombreEntrenador = pNombreEntrenador;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 618, 309); // definimos tama�o del panel a mano
 		entrenoInfo = new JPanel();
@@ -226,7 +228,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					try {
-						EntrenoDiarioVista ed = EntrenoDiarioVista.getMiEntreno(fecha, name, true);
+						EntrenoDiarioVista ed = EntrenoDiarioVista.getMiEntreno(fecha, name, true,nombreEntrenador);
 						ed.setVisible(true);
 						dispose();
 						
@@ -282,6 +284,9 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 								if(b1.getText().length()!=0) {
 								k = (int)Integer.parseInt(b1.getText());
 								}
+								else {
+									k = 0;
+								}
 							}
 							
 							Component d =  line.getComponent(2);
@@ -289,6 +294,8 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 								JTextField c1 = (JTextField) d;
 								if(c1.getText().length()!=0) {
 								s = (int)Integer.parseInt(c1.getText());
+								}else {
+									s = 3;
 								}
 							}
 							
@@ -297,6 +304,8 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 								JTextField f1 = (JTextField) f;
 								if(f1.getText().length()!=0) {
 								rep = (int)Integer.parseInt(f1.getText());
+								}else {
+									rep = 10;
 								}
 							}
 							
@@ -305,6 +314,8 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 								JTextField g1 = (JTextField) g;
 								if(g1.getText().length()!=0) {
 								rp = (int) Integer.parseInt(g1.getText());
+								}else {
+									rp = 5;
 								}
 							}
 							
@@ -320,7 +331,7 @@ public class InsertarEjercicioNuevoVista extends JFrame {
 						
 						try {
 							dispose();
-							EntrenoDiarioVista entrenoVista = EntrenoDiarioVista.getMiEntreno(fecha, user, true);
+							EntrenoDiarioVista entrenoVista = EntrenoDiarioVista.getMiEntreno(fecha, user, true,nombreEntrenador);
 							entrenoVista.setVisible(true);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block

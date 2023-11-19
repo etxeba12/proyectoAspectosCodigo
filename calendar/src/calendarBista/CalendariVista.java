@@ -49,19 +49,20 @@ public class CalendariVista extends JFrame implements Observer {
         private JPanel parteArriba;
         private JPanel CalendarioDias;
         private String nombre;
+        private String nombreEntrenador;
         private Boolean entrenador;
         private EntrenoDiarioVista dl;
         private ConsultasDBModelo db = new ConsultasDBModelo();
         
 
 
-    public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador) throws SQLException{
+    public static CalendariVista getCalendario(int ano,String mes,String pNombre, Boolean pEntrenador,String pNombreEntrenador) throws SQLException{
 
         if(hashSingleton.get(pNombre) == null){
-        	calendario = new CalendariVista(ano, mes, pNombre, pEntrenador);
+        	calendario = new CalendariVista(ano, mes, pNombre, pEntrenador,pNombreEntrenador);
         	hashSingleton.put(pNombre, calendario);
         }else {
-        	update(ano, mes, pNombre, pEntrenador);
+        	update(ano, mes, pNombre, pEntrenador,pNombreEntrenador);
         }
         
         calendario = hashSingleton.get(pNombre);
@@ -70,11 +71,12 @@ public class CalendariVista extends JFrame implements Observer {
         
 
 
-    private CalendariVista(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException{
+    private CalendariVista(int ano, String mes,String pNombre, Boolean pEntrenador,String pNombreEntrenador) throws SQLException{
     		
 		this.ano = ano;
 		this.m = mes;
 		this.nombre = pNombre;
+		this.nombreEntrenador = pNombreEntrenador;
 		this.entrenador = pEntrenador;
     	setTitle("CALENDARIO ENTRENO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
@@ -130,7 +132,7 @@ public class CalendariVista extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					if(entrenador) {
 						try {
-							ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista();
+							ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista(nombreEntrenador);
 							ec.setVisible(true);
 							dispose();
 						} catch (SQLException e1) {
@@ -294,7 +296,7 @@ public class CalendariVista extends JFrame implements Observer {
                 String d = ((AbstractButton) e.getSource()).getText();
                 try {
                 	calendario.dispose();
-					dl = EntrenoDiarioVista.getMiEntreno(crearFormatoFecha(a, m, d),nombre,entrenador);
+					dl = EntrenoDiarioVista.getMiEntreno(crearFormatoFecha(a, m, d),nombre,entrenador,nombreEntrenador);
 					dl.setVisible(true);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -331,7 +333,7 @@ public class CalendariVista extends JFrame implements Observer {
         }
 
         try {
-			calendario = new CalendariVista(ano, m,this.nombre,this.entrenador);
+			calendario = new CalendariVista(ano, m,this.nombre,this.entrenador,this.nombreEntrenador);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -348,9 +350,8 @@ public class CalendariVista extends JFrame implements Observer {
         g.addObserver(calendario); // Registra la nueva instancia
         
     }
-    private static void update(int ano, String mes,String pNombre, Boolean pEntrenador) throws SQLException {
-    	System.out.println("ano: " + ano + " mes: " + mes + " nombre: " + pNombre );
-		CalendariVista calendario = new CalendariVista( ano,  mes, pNombre,  pEntrenador);
+    private static void update(int ano, String mes,String pNombre, Boolean pEntrenador,String pNombreEntrenador) throws SQLException {
+		CalendariVista calendario = new CalendariVista( ano,  mes, pNombre,  pEntrenador,pNombreEntrenador);
     	hashSingleton.put(pNombre, calendario);
 	}
 }

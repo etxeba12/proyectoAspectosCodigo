@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import com.mysql.cj.exceptions.PropertyNotModifiableException;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import exceptions.ExceptionModificable;
@@ -58,11 +59,13 @@ public class EntrenoDiarioVista extends JFrame {
 		private ConsultasDBModelo cd = new ConsultasDBModelo();
 		private String fecha;
 		private String nombre;
+		private String nombreEntrenador;
 		private Boolean esEntrenador;
 		
-		 private EntrenoDiarioVista(String pFecha,String pNombre, Boolean pEsEntrenador) throws SQLException { //HAY QUE MIRAR ESTO
+		 private EntrenoDiarioVista(String pFecha,String pNombre, Boolean pEsEntrenador,String pNombreEntrenador) throws SQLException { //HAY QUE MIRAR ESTO
 			fecha = pFecha;
 			nombre = pNombre;
+			nombreEntrenador = pNombreEntrenador;
 			this.esEntrenador = pEsEntrenador;
 			setTitle("ENTRENO CLIENTE"); //titulo de la pagina
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
@@ -94,12 +97,12 @@ public class EntrenoDiarioVista extends JFrame {
 		}
 		
 
-		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {	
+		public static EntrenoDiarioVista getMiEntreno(String pFecha, String pNombre, Boolean pEsEntrenador ,String pNombreEntrenador) throws SQLException {	
 			if(hashSingleton.get(pNombre + pFecha) == null){
-	        	miEntrenoDiario = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
+	        	miEntrenoDiario = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador,pNombreEntrenador);
 	        	hashSingleton.put(pNombre + pFecha, miEntrenoDiario);
 	        }
-			update(pFecha, pNombre, pEsEntrenador);
+			update(pFecha, pNombre, pEsEntrenador, pNombreEntrenador);
 	        miEntrenoDiario = hashSingleton.get(pNombre + pFecha);
 	        
 	        return miEntrenoDiario;
@@ -141,7 +144,7 @@ public class EntrenoDiarioVista extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
-							CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),conseguirMes(Integer.parseInt(fecha.substring(5,7))),nombre,esEntrenador);
+							CalendariVista ed = CalendariVista.getCalendario(Integer.parseInt(fecha.substring(0, 4)),conseguirMes(Integer.parseInt(fecha.substring(5,7))),nombre,esEntrenador,nombreEntrenador);
 							ed.setVisible(true);
 							dispose();
 						} catch (NumberFormatException e1) {
@@ -176,7 +179,7 @@ public class EntrenoDiarioVista extends JFrame {
 						// TODO Auto-generated method stub
 						try {
 							String fechaAnterior = calcularDiaAnterior(fecha);
-		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaAnterior,nombre,esEntrenador);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaAnterior,nombre,esEntrenador,nombreEntrenador);
 		                    ed.setVisible(true);
 		                    dispose();
 						} catch (SQLException e1) {
@@ -210,7 +213,7 @@ public class EntrenoDiarioVista extends JFrame {
 						// falta mirar que pasa si un entreno que busques no existe	 
 						try {
 							String fechaSiguiente = calcularDiaSiguiente(fecha);
-		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaSiguiente,nombre,esEntrenador);
+		                    EntrenoDiarioVista ed = new EntrenoDiarioVista(fechaSiguiente,nombre,esEntrenador,nombreEntrenador);
 		                    ed.setVisible(true);
 		                    dispose();
 						} catch (SQLException e1) {
@@ -278,7 +281,7 @@ public class EntrenoDiarioVista extends JFrame {
 		                try {
 		                	JButton botonClicado = (JButton) e.getSource();
 			                String nombreEjer = botonClicado.getText();
-							EntrenoInfoVista ei = new EntrenoInfoVista(nombreEjer, fecha, nombre);
+							EntrenoInfoVista ei = new EntrenoInfoVista(nombreEjer, fecha, nombre,nombreEntrenador);
 							ei.setVisible(true);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
@@ -312,7 +315,7 @@ public class EntrenoDiarioVista extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						try {
-							InsertarEjercicioNuevoVista ie = new InsertarEjercicioNuevoVista(nombre);
+							InsertarEjercicioNuevoVista ie = new InsertarEjercicioNuevoVista(nombre,nombreEntrenador);
 							ie.setFecha(fecha);
 							ie.setNombre(nombre);
 							ie.setVisible(true);
@@ -350,8 +353,8 @@ public class EntrenoDiarioVista extends JFrame {
 	        return diaSiguienteStr;
 	    }
 		
-		private static void update(String pFecha, String pNombre, Boolean pEsEntrenador) throws SQLException {
-			EntrenoDiarioVista entrenoVista = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador);
+		private static void update(String pFecha, String pNombre, Boolean pEsEntrenador,String pNombreEntrenador) throws SQLException {
+			EntrenoDiarioVista entrenoVista = new EntrenoDiarioVista(pFecha, pNombre, pEsEntrenador,pNombreEntrenador);
         	hashSingleton.put(pNombre + pFecha, entrenoVista);
 		}
 		

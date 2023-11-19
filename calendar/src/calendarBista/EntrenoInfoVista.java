@@ -41,19 +41,21 @@ public class EntrenoInfoVista  extends JFrame{
 	private JPanel linea;
 	private JPanel parteDeAbajo;
 	private JButton botonGuardar;
+	private String nombreEntrenador;
 	private String series;
 	private String fecha;
 	private String usuario;
-	private int kilosRellenar;
-	private int rpeRellenar;
+	private String kilosRellenar;
+	private String rpeRellenar;
 		
 	
 	
 	//preguntar xq nos pide que cambiemos la visibilidad
-	EntrenoInfoVista(String pEjer, String pFecha, String pUsuario) throws SQLException {
+	EntrenoInfoVista(String pEjer, String pFecha, String pUsuario, String pNombreEntrenador) throws SQLException {
 		nombreEjer = pEjer;
 		fecha = pFecha;
 		usuario = pUsuario;
+		nombreEntrenador = pNombreEntrenador;
 		setTitle("INFORMACION ENTRENO"); //titulo de la pagina
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //que hacer en caso de cerrar la pesta�a
 		setBounds(120, 120, 518, 309); // definimos tama�o del panel a mano
@@ -80,9 +82,9 @@ public class EntrenoInfoVista  extends JFrame{
 		setLocationRelativeTo(null);
 	}
 	
-	public static EntrenoInfoVista getMiEntreno(String ejer, String fech, String usu) throws SQLException {
+	public static EntrenoInfoVista getMiEntreno(String ejer, String fech, String usu,String pNombreEntrenador) throws SQLException {
 		if( miEntrenoInfo == null) {
-			miEntrenoInfo = new EntrenoInfoVista(ejer, fech, usu);
+			miEntrenoInfo = new EntrenoInfoVista(ejer, fech, usu,pNombreEntrenador);
 		}
 		return miEntrenoInfo;
 	}
@@ -103,7 +105,7 @@ public class EntrenoInfoVista  extends JFrame{
 	//////////////creamos los labels y los TF //////////////
 	
 	private JPanel getEntrenamientos() throws SQLException {
-		ResultSet respuesta = cd.conseguirInfoEntreno(nombreEjer);
+		ResultSet respuesta = cd.conseguirInfoEntreno(nombreEjer,fecha,usuario);
 		respuesta.next();
 		series = respuesta.getString("series");
 		this.tabla = new JPanel(new GridLayout(Integer.parseInt(series) +  2,3));
@@ -234,8 +236,9 @@ public class EntrenoInfoVista  extends JFrame{
 	    try {
 	        // Obt�n el nombre del ejercicio
 	        String nombreEjercicio = getNombreEjercicio().getText();
-	        int kilos = 0;
-	        int rpe = 0;
+	        String kilos = "";
+	        String rpe = "";
+	        
 
 	        // Itera sobre los paneles para obtener los valores de kilos y RPE
 	        Component[] componentes = tabla.getComponents();
@@ -249,15 +252,16 @@ public class EntrenoInfoVista  extends JFrame{
 
 	                        // Obt�n el valor del JTextField
 	                        String valor = textField.getText();
-
-	                        // Actualiza la base de datos con el valor
-	                        if(!valor.isEmpty()) {
-	                        	if (textField.getName().equals("Kilos")) {
-	                        		kilos = Integer.parseInt(valor);
-	                        	} else if (textField.getName().equals("RPE")) {
-	                        		rpe = Integer.parseInt(valor);
-	                        	}
+	                        if(valor.isEmpty()) {
+	                        	valor = "0";
 	                        }
+	                        
+                        	if (textField.getName().equals("Kilos")) {
+                        		kilos = kilos + " " + valor;
+                        	} else if (textField.getName().equals("RPE")) {
+                        		rpe = rpe + " " + valor;
+                        	}
+	                        
 	                    }
 	                }
 	            }
@@ -272,12 +276,24 @@ public class EntrenoInfoVista  extends JFrame{
 	}
 	
 	private void ponerDatosGuardados() throws SQLException {
+		int i = 1;
+		int j = 1;
+		String[] kilosLista = {"0","0","0","0","0","0","0","0","0"};
+		String[] rpeLista = {"0","0","0","0","0","0","0","0","0"};
+		
 		ResultSet datosCliente = cd.comprobarKilosRPECliente(usuario, fecha, nombreEjer);
 		while (datosCliente.next()) {
-			this.kilosRellenar = datosCliente.getInt("kilosCliente");
-			this.rpeRellenar = datosCliente.getInt("RPECliente");
+			this.kilosRellenar = datosCliente.getString("kilosCliente");
+			this.rpeRellenar = datosCliente.getString("RPECliente");
+		}
+		if(kilosRellenar != null) {
+			kilosLista = kilosRellenar.split("\\s+");
+			
+		}if(rpeRellenar != null){
+			rpeLista = rpeRellenar.split("\\s+");
 		}
 		
+	
 		Component[] componentes = tabla.getComponents();
         for (Component componente : componentes) {
             if (componente instanceof JPanel) {
@@ -287,15 +303,23 @@ public class EntrenoInfoVista  extends JFrame{
                     if (lineComponent instanceof JTextField) {
                         JTextField textField = (JTextField) lineComponent;
                         if (textField.getName().equals("Kilos")) {
-                    		textField.setText(Integer.toString(kilosRellenar));
+                    		textField.setText(kilosLista[i]);
+                    		i++;
                     	} else if (textField.getName().equals("RPE")) {
-                    		textField.setText(Integer.toString(rpeRellenar));
+                    		textField.setText(rpeLista[j]);
+                    		j++;
+                    		
                     	}
+                        
 
                     }
+                    
                 }
+                
             }
+            
         }
+        
 		
 		
         

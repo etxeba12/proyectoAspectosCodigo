@@ -223,12 +223,13 @@ public class LoginVista extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
+						System.out.println(usuarioTF.getText());
 						if(usuarioTF.getText().length() != 0 && contrasenaTF.getText().length() != 0) {
 							String aux = this.hash(contrasenaTF.getText());
 							if(r.loginValido(usuarioTF.getText(),aux)){
 								r.desconexion();
 								setVisible(false);
-								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false);
+								cl = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),usuarioTF.getText(),false, "");
 								r.desconexion();
 								cl.setEsEntrenador(false);
 								cl.setVisible(true);
@@ -237,7 +238,7 @@ public class LoginVista extends JFrame {
 								
 							}else if(r.comprobarEntrenador(usuarioTF.getText(),aux)){
 								setVisible(false);
-								ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista();
+								ElegirClienteVista ec = ElegirClienteVista.getElegirClienteVista(usuarioTF.getText());
 								//ElegirClienteVista ec = new ElegirClienteVista();
 								ec.setVisible(true);
 								contrasenaTF.setText("");

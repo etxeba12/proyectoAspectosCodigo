@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
@@ -40,8 +42,9 @@ public class ElegirClienteVista extends JFrame {
 	private JLabel bienvenidaLbl;
 	private JPanel panelRadioBotones;
 	private ConsultasDBModelo db = new ConsultasDBModelo();
+	private static Map<String, ElegirClienteVista>  hashSingleton = new HashMap<>();
 	private JButton logoutButton;
-
+	private String usuarioNombre;
 	private JPanel elegirCliente;
 	private JPanel tabla;
 
@@ -50,15 +53,19 @@ public class ElegirClienteVista extends JFrame {
 	
 	private static ElegirClienteVista e;
 
-	public static ElegirClienteVista getElegirClienteVista() throws SQLException {
-		if(e==null) {
-			e = new ElegirClienteVista();
+	public static ElegirClienteVista getElegirClienteVista(String pUsuario) throws SQLException {
+		if(hashSingleton.get(pUsuario) == null){
+        	e= new ElegirClienteVista(pUsuario);
+        	hashSingleton.put(pUsuario, e );
 		}
+		e = hashSingleton.get(pUsuario);
 		return e;
 	}
 	
-	private  ElegirClienteVista() throws SQLException {
+	private  ElegirClienteVista(String pUsuario) throws SQLException {
 		setTitle("ELEGIR CLIENTE"); //titulo de la pagina
+		this.usuarioNombre = pUsuario;
+		System.out.println(pUsuario);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //que hacer en caso de cerrar la pestana
 		setBounds(120, 120, 500, 300); // definimos tamano del panel a mano
 		elegirCliente = new JPanel();
@@ -134,7 +141,7 @@ public class ElegirClienteVista extends JFrame {
 		this.tabla.setBounds(0, 45, 500, 220);
 		Border borde = BorderFactory.createLineBorder(Color.black, 1);
 		this.tabla.setBorder(borde);
-		ResultSet clientes = db.conseguirClientes("Iker");
+		ResultSet clientes = db.conseguirClientes(this.usuarioNombre);
 		
 		
 		while(clientes.next()) {
@@ -159,7 +166,7 @@ public class ElegirClienteVista extends JFrame {
 					CalendariVista cv;
 					try {
 						ConsultasDBModelo db = new ConsultasDBModelo();
-						cv = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),nombreCliente,true);
+						cv = CalendariVista.getCalendario(LocalDate.now().getYear(),LocalDate.now().getMonth().toString(),nombreCliente,true,usuarioNombre);
 						cv.setEsEntrenador(true);
 						cv.setVisible(true);
 					} catch (SQLException e1) {

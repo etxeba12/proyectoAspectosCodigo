@@ -16,7 +16,7 @@ public class ConsultasDBModelo extends BD{
 		return SetInformacion("INSERT INTO `gymcalendar`.`calendario`(`fecha`,`nombreEjercicio`,`series`,`repeticiones`,`RPE`,`kilos`,`cliente_nombre`) VALUES ('"+fecha+"','"+nombre+"','"+series+"','"+repes+"','"+rpe+"','"+kilos+"','"+user+"');");
 	}
 	
-	public int actualizarKilosRPECliente(String usuario, String fecha, String nombreEjercicio, int kilosCliente, int rpeCliente) throws SQLException {
+	public int actualizarKilosRPECliente(String usuario, String fecha, String nombreEjercicio, String kilosCliente,String rpeCliente) throws SQLException {
 	    return SetInformacion("UPDATE `calendario` SET `KilosCliente` = '"+kilosCliente+"', `RPECliente` = '"+rpeCliente+"' WHERE cliente_nombre = '"+usuario+"' AND `nombreEjercicio` = '"+nombreEjercicio+"' AND `fecha` = '"+fecha+"'");
 	}
 	
@@ -62,8 +62,8 @@ public class ConsultasDBModelo extends BD{
 		return respuesta;
 	}
 	
-	public ResultSet conseguirInfoEntreno(String pNombre) throws SQLException{
-		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones`, `RPE`, `kilos` FROM `calendario` WHERE nombreEjercicio = '"+pNombre+"'; ");
+	public ResultSet conseguirInfoEntreno(String pNombre,String pFecha, String pNombreUsuario) throws SQLException{
+		ResultSet respuesta = obtenerDatos("SELECT `series`, `repeticiones`, `RPE`, `kilos` FROM `calendario` WHERE nombreEjercicio = '"+pNombre+"' AND fecha = '"+pFecha+"' AND cliente_nombre = '"+pNombreUsuario+"'; ");
 		return respuesta;
 	}
 
